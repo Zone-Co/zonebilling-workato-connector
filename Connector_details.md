@@ -14,7 +14,7 @@
 - Email: amynelson@zoneandco.com
 
 # Connector Description 
-The ZoneBilling for NetSuite Workato Connector allows you to interact with NetSuite with the full power of the [ZoneBilling API](https://zab-docs.zoneandco.com/). Requires version 2023.07.20.1 or later of the [ZoneBilling NetSuite SuiteApp](https://www.suiteapp.com/ZoneBilling). For more information, [please visit our help documentation](https://help.zoneandco.com/hc/en-us). 
+The ZoneBilling for NetSuite Workato Connector allows you to interact with NetSuite with the full power of the [ZoneBilling API](https://zab-docs.zoneandco.com/). Requires version 2023.07.20.1 or later of the [ZoneBilling NetSuite SuiteApp](https://www.suiteapp.com/ZoneBilling). For more information, [please visit our help documentation](https://help.zoneandco.com/hc/en-us/sections/17022714320155-Workato). 
 
 ### What can you do with this connector
 1. Create, Update, and Upsert records into NetSuite, including Standard, ZoneBilling, or any other custom record type within your environment.

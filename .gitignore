@@ -11,3 +11,6 @@ master.key
 
 # rspec failure tracking
 .rspec_status
+ 
+/master.key
+ 
