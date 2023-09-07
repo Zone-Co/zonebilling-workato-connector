@@ -12,11 +12,11 @@
     fields: [
       ## Keeping this field in order to allow future authentication methods in the future
       {
-        name: "auth_type",
-        label: "Authentican Type"
-        control_type: "select",
+        name: 'auth_type',
+        label: 'Authentication Type',
+        control_type: 'select',
         pick_list: [
-          ["OAuth 2.0 (Machine to Machine)", "ns_oauth2_m2m"],
+          ['OAuth 2.0 (Machine to Machine)', 'ns_oauth2_m2m']
         ],
         extends_schema: true
       }
@@ -50,7 +50,7 @@
               hint: 'This is provided by NetSuite when creating the integration record in the system. This is found under Setup > Integration > Managed Integrations > New within NetSuite.',
               optional: false,
               control_type: 'password'
-    },
+            },
             {
               name: 'private_key',
               label: 'Private Key',
@@ -62,7 +62,6 @@
           ],
 
           acquire: lambda do |connection|
-
             endpoint = "https://#{connection['account_id']}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token".downcase
 
             jwt_body_claim = {
@@ -92,22 +91,20 @@
           refresh_on: [401],
 
           apply: lambda do |connection|
+                   # Access Token is added to the connection hash via the acquire method
+                   access_token = connection['access_token']
 
-            # Access Token is added to the connection hash via the acquire method
-            access_token = connection['access_token']
-
-            headers(
-              "Authorization" => "Bearer #{access_token}",
-              'Content-Type' => 'application/json'
-            )
-    end
+                   headers(
+                     "Authorization" => "Bearer #{access_token}",
+                     'Content-Type' => 'application/json'
+                   )
+                 end
         }
       }
     }
   },
 
   test: lambda do |connection|
-
     ## All NetSuite Accounts have this record type, this ZAB API Export
     ## We want a short page_size and short page_number to receive a quick response
     params = {
@@ -177,7 +174,6 @@
       max_retries: 3,
 
       sample_output: lambda do |connection, input|
-
         call(:get_post_sample_response, connection, input)
       end
     },
@@ -260,7 +256,6 @@
       summarize_output: ['results'],
 
       sample_output: lambda do |connection, input|
-
         call(:get_post_sample_response, connection, input)
       end
     },
@@ -667,7 +662,6 @@
       summarize_output: ['results'],
 
       sample_output: lambda do |connection, input|
-
         {
           reference_id: 1234
         }
@@ -777,7 +771,7 @@
               object_definitions['get_options_request'],
               object_definitions['get_options_response'],
             ].flatten
-  },
+          },
           {
             name: 'dynamic_filters',
             label: 'Filters',
@@ -800,7 +794,6 @@
       summarize_output: ['results'],
 
       sample_output: lambda do |connection, input|
-
         response = call(:get_export_id, connection, input) || {
           page: 1,
           total_pages: 5,
@@ -811,7 +804,7 @@
 
         response
       end
-  },
+    },
 
     "get_record": {
       title: "Get Record",
@@ -889,7 +882,6 @@
       end,
 
       output_fields: lambda do |object_definitions, connection, config_fields|
-
         response = object_definitions['get_response'] || {}
         index = response.find_index { |objField|
           objField['name'] == 'results'
@@ -900,7 +892,6 @@
       end,
 
       sample_output: lambda do |connection, input|
-
         result = call(:get_export_id, connection, input)
 
         results = result['results'] || []
@@ -964,12 +955,10 @@
       end,
 
       execute: lambda do |connection, input|
-
         call(:get_record_file, connection, input)
       end,
 
       output_fields: lambda do |object_definitions, connection, config_fields|
-
         object_definitions['get_file_response']
       end,
 
@@ -980,7 +969,7 @@
           contents: "... File Contents ..."
         }
       end
-  },
+    },
 
     "get_record_file_attachments": {
       title: "Get Record File Attachments",
@@ -1084,7 +1073,6 @@
       end,
 
       output_fields: lambda do |object_definitions, connection, config_fields|
-
         object_definitions['get_file_response']
       end,
 
@@ -1112,7 +1100,6 @@
   pick_lists: {
 
     api_exports: lambda do |connection|
-
       results = []
 
       params = {
@@ -1136,7 +1123,6 @@
     end,
 
     automations: lambda do |connection|
-
       results = []
       params = {
         export_id: 'zab_automation'
@@ -1144,7 +1130,6 @@
 
       response = call(:get, connection, params) || {}
       response['results'].each do |objResult|
-
         id = objResult['name']['value']
         name = objResult['altname']['value']
         type = objResult['custrecordzab_a_processes']['text']
@@ -1238,7 +1223,6 @@
 
       response = call(:get, connection, params) || {}
       response['results'].each do |objResult|
-
         objName = objResult['name'] || {}
         name = objName['value']
         objType = objResult['custrecordzab_p_process'] || {}
@@ -1266,15 +1250,14 @@
     end,
 
     record_field_tree: lambda do |connection, **args|
-
       if (record_type = args&.[](:__parent_id)).presence
         ## Get "Contents" -- Record Fields
         record_fields = call(:get_record_fields, connection, record_type).map do |option|
           [
             option[0], ## Label with record type
             [record_type, option[1]].join('.'), ## Value
-            nil,  ## Child Options
-            false  ## Is Not Parent Folder
+            nil, ## Child Options
+            false ## Is Not Parent Folder
           ]
         end
       else
@@ -1601,7 +1584,6 @@
 
     record_fields: {
       fields: lambda do |connection, config_fields, object_definitions|
-
         record_type = config_fields['record_type'] || ''
         external_key = config_fields['external_key'] || ''
         options = config_fields['options'] || {}
@@ -1617,8 +1599,7 @@
             name: 'record_fields',
             label: 'Fields',
             type: :object,
-            properties: fields.map{ |field|
-
+            properties: fields.map { |field|
               if (field['id'] == 'id')
                 field['id'] = 'internalid'
               end
@@ -1635,7 +1616,7 @@
           }
         ]
 
-        sublist_fields = sublists.map{ |sublist|
+        sublist_fields = sublists.map { |sublist|
           hint = sublist['recordType'] ? "<b>Related Record Type ID: </b>#{sublist['recordType']}" : null
 
           if (sublist['fields'].length())
@@ -1647,7 +1628,7 @@
               of: :object,
               list_mode: 'dynamic',
               item_label: sublist['name'] || sublist['id'],
-              properties: sublist['fields'].map{ |field|
+              properties: sublist['fields'].map { |field|
                 call(:get_workato_field, field, false)
               }
             }
@@ -1656,11 +1637,11 @@
 
         if (!sublist_fields.blank?)
           fields.push({
-            name: 'sublist_fields',
-            label: 'Sublists',
-            type: :object,
-            properties: sublist_fields
-          })
+                        name: 'sublist_fields',
+                        label: 'Sublists',
+                        type: :object,
+                        properties: sublist_fields
+                      })
         end
 
         fields
@@ -1675,18 +1656,18 @@
 
         if (config_fields['record_type'])
           fields.push({
-            name: "internalid",
-            label: "Internal ID",
-            type: :integer
-          })
+                        name: "internalid",
+                        label: "Internal ID",
+                        type: :integer
+                      })
         end
 
         if (!options['automations'].blank?)
           fields.push({
-            name: "reference_id",
-            label: "Reference ID",
-            type: :integer
-          })
+                        name: "reference_id",
+                        label: "Reference ID",
+                        type: :integer
+                      })
         end
 
         if (options['export_id'])
@@ -1817,7 +1798,6 @@
 
     get_response: {
       fields: lambda do |connection, config_fields, object_definitions|
-
         options = config_fields['options'] || {}
 
         fields = [
@@ -1868,19 +1848,19 @@
             {
               name: column_header,
               type: :object,
-              properties: value.map{ |label, field_value|
-                {name: label}
+              properties: value.map { |label, field_value|
+                { name: label }
               }
             }
           end
 
           fields.push({
-            name: "results",
-            label: "Results",
-            type: :array,
-            of: :object,
-            properties: record_fields
-          })
+                        name: "results",
+                        label: "Results",
+                        type: :array,
+                        of: :object,
+                        properties: record_fields
+                      })
         end
 
         fields
@@ -1939,7 +1919,6 @@
   methods: {
 
     post: lambda do |connection, input, operation|
-
       options = input['options'] || {}
       automations = options['automations'] || ''
 
@@ -1950,39 +1929,34 @@
         externalReferences: call(:get_external_references, input),
         export_id: options['export_id'],
         automations: automations.split(',')
-      }.reject{|_, v| v.blank?}
+      }.reject { |_, v| v.blank? }
 
       if (input['records'])
-        payload['records'] = input['records'].map{ |record_fields|
+        payload['records'] = input['records'].map { |record_fields|
           call(:parse_record, record_fields)
         }
-      elsif
-        payload['record'] = call(:parse_record, input)
+      elsif payload['record'] = call(:parse_record, input)
       end
 
-      post('', payload).
-        after_response do |code, body, headers|
+      post('', payload)
+        .after_response do |code, body, headers|
           if (!body['success'] || body['error'])
             call(:validate_response, code, body, headers)
           else
             body
           end
         end
-
     end,
 
     get: lambda do |connection, params|
-
-      get('', params).
-        after_response do |code, body, headers|
+      get('', params)
+        .after_response do |code, body, headers|
           call(:validate_response, code, body, headers)
         end
-
     end,
 
     # Standardize how we parse errors for our requests
     validate_response: lambda do |code, body, headers|
-
       error_check = body.is_a?(Array) ? body[0] : body
 
       if (!error_check['success'] || error_check['error'])
@@ -1999,13 +1973,12 @@
       else
         body
       end
-
     end,
 
     get_post_sample_response: lambda do |connection, input|
       result = {
         internalid: 101
-  }
+      }
 
       options = input['options'] || {}
 
@@ -2022,7 +1995,6 @@
     end,
 
     get_export_id: lambda do |connection, input|
-
       options = input['options'] || {}
       parameters = call(:get_filter_parameters, input)
 
@@ -2036,7 +2008,6 @@
     end,
 
     get_filter_parameters: lambda do |input|
-
       parameters = {}
       options = input['options'] || {}
       dynamic_filters = input['dynamic_filters'] || {}
@@ -2051,7 +2022,6 @@
 
       ## Dynamic Filter Parameters
       filters.map do |filter|
-
         parameter = [
           filter['type'],
           filter['operator'],
@@ -2079,7 +2049,7 @@
       results = []
       params = {
         get_record_types: true
-}
+      }
       response = call(:get, connection, params) || {}
       record_types = response['results']
 
@@ -2107,7 +2077,6 @@
       response_fields = response['fields'] || []
 
       response_fields.each do |field_details|
-
         if (field_details['id'] != 'id')
           results.push(
             [
@@ -2128,16 +2097,16 @@
 
     get_field_type: lambda do |field_type|
       control_types = {
-        "float"  => 'number',
+        "float" => 'number',
         "currency" => 'number',
-        "integer"  => 'integer',
-        "checkbox"  => 'checkbox',
-        "select"  => 'text',
-        "text"  => 'text',
+        "integer" => 'integer',
+        "checkbox" => 'checkbox',
+        "select" => 'text',
+        "text" => 'text',
         "textarea" => 'plain-text-area',
-        "date"  => 'date',
-        "datetime"  => 'date_time',
-        "multiselect"  => 'multi_select',
+        "date" => 'date',
+        "datetime" => 'date_time',
+        "multiselect" => 'multi_select',
         "url" => "url"
       }
 
@@ -2168,14 +2137,13 @@
       results = call(:get, connection, params)
 
       {
-        files: results.map{ |result|
+        files: results.map { |result|
           call(:get_file_result, result)
         }
       }
     end,
 
     get_file_result: lambda do |result|
-
       file = result['file']
 
       {
@@ -2186,7 +2154,6 @@
     end,
 
     get_workato_field: lambda do |field, is_mandatory|
-
       control_type = call(:get_field_type, field['type'])
       field_id = field['id']
       is_select = field['type'] == 'select'
@@ -2197,7 +2164,7 @@
         name: field['id'],
         label: field['label'],
         hint: hint,
-        optional: !is_mandatory,  ## We decided to not do mandatory field validation at the connector level because NetSuite or ZAB may auto-determine values the record via native UEs
+        optional: !is_mandatory, ## We decided to not do mandatory field validation at the connector level because NetSuite or ZAB may auto-determine values the record via native UEs
         custom: is_custom,
         control_type: is_select ? :integer : control_type,
         toggle_hint: is_select ? "Value" : null,
@@ -2213,11 +2180,10 @@
     end,
 
     get_external_references: lambda do |input|
-
       options = input['options'] || {}
       external_references = options['external_references'] || []
 
-      external_references.map{ |reference|
+      external_references.map { |reference|
         related_field_id = reference['related_field_id'] || ''
         related_attributes = related_field_id.split('.')
 
@@ -2230,7 +2196,6 @@
     end,
 
     parse_record: lambda do |input|
-
       sublists = input['sublist_fields'] || {}
       record_fields = input['record_fields'] || {}
 
@@ -2243,10 +2208,10 @@
         record[new_key] = value
       }
 
-      sublists.each{ |key, sublist_records|
-        sublists[key] = sublist_records.map{ |sublist_record_fields|
+      sublists.each { |key, sublist_records|
+        sublists[key] = sublist_records.map { |sublist_record_fields|
           sublist_record = {}
-          sublist_record_fields.each{ |key, value|
+          sublist_record_fields.each { |key, value|
             new_key = call(:parse_record_field_key, key)
             sublist_record[new_key] = value
           }
