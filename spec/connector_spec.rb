@@ -13,6 +13,16 @@ RSpec.describe 'connector', :vcr do
   describe 'test' do
     subject(:output) { connector.test(settings) }
 
-    pending 'add some examples'
+    context 'given valid credentials' do
+      it 'establishes valid connection' do
+        expect(output).to be_truthy
+      end
+
+      it 'returns response that is formatted properly' do
+        # large Test responses might also cause connections to be evaluated wrongly
+        expect(output.to_s.length).to be < 5000
+        expect(output['list']).to be_kind_of(::Array)
+      end
+    end
   end
 end

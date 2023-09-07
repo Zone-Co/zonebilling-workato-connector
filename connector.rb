@@ -26,6 +26,10 @@
 
       type: "multi",
 
+      selected: lambda do |connection|
+        connection["auth_type"]
+      end,
+
       options: {
 
         'ns_oauth2_m2m': {
@@ -88,17 +92,19 @@
             ).request_format_www_form_urlencoded
           end,
 
-          refresh_on: [401],
+          detect_on: [401, 403],
+
+          refresh_on: [401, 403],
 
           apply: lambda do |connection|
-                   # Access Token is added to the connection hash via the acquire method
-                   access_token = connection['access_token']
+             # Access Token is added to the connection hash via the acquire method
+             access_token = connection['access_token']
 
-                   headers(
-                     "Authorization" => "Bearer #{access_token}",
-                     'Content-Type' => 'application/json'
-                   )
-                 end
+             headers(
+               "Authorization" => "Bearer #{access_token}",
+               'Content-Type' => 'application/json'
+             )
+           end
         }
       }
     }
