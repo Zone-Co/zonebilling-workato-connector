@@ -4,9 +4,7 @@
 
   connection: {
     base_uri: lambda do |connection|
-      account_id = connection['account_id']
-
-      "https://#{account_id}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=customscriptzab_api_restlet&deploy=customdeployzab_api_restlet".downcase
+      "https://#{connection['account_id']}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=customscriptzab_api_restlet&deploy=customdeployzab_api_restlet".downcase
     end,
 
     fields: [
@@ -32,7 +30,7 @@
 
       options: {
 
-        'ns_oauth2_m2m': {
+        ns_oauth2_m2m: {
           type: "custom_auth", ## Per Workato Documentation, we want to use this since it is a 'JWT' integration
 
           fields: [

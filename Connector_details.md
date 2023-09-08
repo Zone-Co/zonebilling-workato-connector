@@ -1,5 +1,3 @@
-## Fill up the details below
-
 # Contact details
 ### Partnerships Contact
 - Full Name: Keith Goldschmidt
