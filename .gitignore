@@ -9,8 +9,11 @@
 /tmp/
 master.key
 
+settings.yaml
+
 # rspec failure tracking
 .rspec_status
  
 /master.key
  
+/vendor/

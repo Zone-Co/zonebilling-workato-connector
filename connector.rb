@@ -4,7 +4,10 @@
 
   connection: {
     base_uri: lambda do |connection|
-      "https://#{connection['account_id']}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=customscriptzab_api_restlet&deploy=customdeployzab_api_restlet".downcase
+      ### NetSuite Sandbox accounts have ID's formatted as 1234567_SB1, but the URL is formatted with a hyphen (eg. 1234567-sb1)
+      account_id = connection['account_id'].gsub("_", "-")
+
+      "https://#{account_id}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=customscriptzab_api_restlet&deploy=customdeployzab_api_restlet".downcase
     end,
 
     fields: [

@@ -6,12 +6,13 @@ RSpec.describe 'connector', :vcr do
   # Learn more: https://docs.workato.com/developing-connectors/sdk/cli/reference/rspec-commands.html
 
   let(:connector) { Workato::Connector::Sdk::Connector.from_file('connector.rb', settings) }
-  let(:settings) { Workato::Connector::Sdk::Settings.from_default_file }
+  let(:settings) { Workato::Connector::Sdk::Settings.from_encrypted_file('settings.yaml.enc', 'master.key') }
 
   it { expect(connector).to be_present }
 
   describe 'test' do
-    subject(:output) { connector.test(settings) }
+    # Assign the output variable as the output of your test lambda
+    subject(:output) {connector.test(settings)}
 
     context 'given valid credentials' do
       it 'establishes valid connection' do
