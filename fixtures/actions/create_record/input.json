@@ -1,0 +1,21 @@
+{
+  "record_type": "customer",
+  "options": {
+    "export_id": "zab_customer",
+    "automations": "1,2",
+    "external_references": [
+      {
+        "field_id": "parent",
+        "related_field_id": "customer.custentitysnag_sfdc_id"
+      }
+    ]
+  },
+  "record_fields": {
+    "parent": "2023-09-11-cpq-inc",
+    "entitystatus-text": "CUSTOMER-Closed Won",
+    "url": "https://www.workato.com",
+    "subsidiary": "3",
+    "companyname": "Workato Test",
+    "email": "info@workato.com"
+  }
+}

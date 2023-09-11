@@ -17,3 +17,4 @@ settings.yaml
 /master.key
  
 /vendor/
+/vcr.log
