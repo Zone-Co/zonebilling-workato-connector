@@ -7,14 +7,17 @@
 /pkg/
 /spec/reports/
 /tmp/
+/vendor/
+
+## Master Keys for Encryption of files
 master.key
+/master.key
 
 settings.yaml
 
 # rspec failure tracking
 .rspec_status
- 
-/master.key
- 
-/vendor/
+
+# VCR Log Testing
 /vcr.log
+/tape_library.log
