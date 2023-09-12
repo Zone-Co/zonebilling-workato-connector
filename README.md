@@ -108,16 +108,14 @@ This is an example of the prompt sequence for generating output json files for a
 
 This results in the file get_record_event.json being created in the output/actions of the application or service directory.
 
-## Implementing OAuth2 authorization code flow
+## Recording VSR Tapes
 
-Implement OAuth2 authorization code flow by running _Tasks: Run Tasks_ command from the [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) and selecting _Implement OAuth2 authorization code flow_.
+To record a tape, you can execute the following with an indicated file path of the rspec test.
+```bash
+bundle exec rspec spec/
+```
 
-Alternatively, run this command on terminal to implement Oauth authorization code flow:
-
-    ```bash
-    ./automate app_name oauth2
-    ```
-
-Begin the OAuth2 code flow and a browser page will pop up allowing you to select the required scopes and authorize the application. The auth code is then stored in the settings.yaml.enc file. If no auth code is returned in the next 20 seconds, the process is terminated. Refer to the [documentation](https://docs.workato.com/developing-connectors/sdk/cli/guides/cli/test.html#invoking-the-test-lambda-for-oauth2-auth-code-grant-scenarios) on OAuth2 code grant for more information.
-
-**Note: Some applications may require you to add http://localhost:45555/oauth/callback as another redirect URI for the oauth2 code flow to work.** 
+To receive the contents of your VCR tapes for review you can load them with the command `workato edit` with a `EDITOR` indicated and the file path of the tape. 
+```bash
+EDITOR="nano" workato edit tape_library/
+```

@@ -612,7 +612,7 @@
       end
     },
 
-    "post_automaton": {
+    "post_automation": {
       title: "Run ZAB Automation(s)",
 
       subtitle: "Kick off a configured ZAB Automation, or select multiple to run them chained.",
@@ -638,7 +638,9 @@
       end,
 
       execute: lambda do |connection, input|
-        call(:post, connection, input)
+        call(:post, connection, {
+          options: input
+        }, nil)
       end,
 
       output_fields: lambda do |object_definitions, connection, config_fields|
@@ -1905,9 +1907,11 @@
   methods: {
 
     post: lambda do |connection, input, operation|
-      options = input['options'] || {}
-      automations = options['automations'] || ''
+      ## Organize Options
+      options = input[:options] || {}
+      automations = options[:automations] || ''
 
+      ## Organize Payload Shell
       payload = {
         operation: operation,
         recordType: input['record_type'],
@@ -1915,15 +1919,22 @@
         externalReferences: call(:get_external_references, input),
         export_id: options['export_id'],
         automations: automations.split(',')
-      }.reject { |_, v| v.blank? }
+      }.reject { |_, v|
+        ## Remove empty params
+        v.blank? || v.nil?
+      }
 
+      ## Parse for Bulk API
       if (input['records'])
         payload['records'] = input['records'].map { |record_fields|
           call(:parse_record, record_fields)
         }
-      elsif payload['record'] = call(:parse_record, input)
+      ## Parse for Singular Record Action
+      elsif (input['record_fields'])
+        payload['record'] = call(:parse_record, input)
       end
 
+      ## Send Request and Handle Response
       post('', payload)
         .after_response do |code, body, headers|
           if (!body['success'] || body['error'])
@@ -2179,6 +2190,8 @@
           relatedFieldId: related_attributes[1] # Related Record Field
         }
       }
+
+      external_references.empty? ? nil : external_references
     end,
 
     parse_record: lambda do |input|

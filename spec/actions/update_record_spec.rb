@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.describe 'actions/post_automation', :vcr do
+RSpec.describe 'actions/update_record', :vcr do
 
   let(:connector) { Workato::Connector::Sdk::Connector.from_file('connector.rb', settings) }
   let(:settings) { Workato::Connector::Sdk::Settings.from_encrypted_file('settings.yaml.enc', 'master.key') }
 
-  let(:action) { connector.actions.post_automation }
+  let(:action) { connector.actions.update_record }
 
   subject(:input) {
     input = JSON.parse(File.read('fixtures/actions/create_record/input.json'))
