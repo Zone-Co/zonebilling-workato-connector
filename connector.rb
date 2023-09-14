@@ -1588,6 +1588,7 @@
             label: 'Fields',
             type: :object,
             properties: fields.map { |field|
+              ## Always replace 'id' with 'internalid' because we want to use this property instead
               if (field['id'] == 'id')
                 field['id'] = 'internalid'
               end
