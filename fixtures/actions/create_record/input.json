@@ -6,12 +6,12 @@
     "external_references": [
       {
         "field_id": "parent",
-        "related_field_id": "customer.custentitysnag_sfdc_id"
+        "related_field_id": "customer.custentitytest_zone_org_id"
       }
     ]
   },
   "record_fields": {
-    "parent": "2023-09-11-cpq-inc",
+    "parent": "workato-customer-parent",
     "entitystatus-text": "CUSTOMER-Closed Won",
     "url": "https://www.workato.com",
     "subsidiary": "3",

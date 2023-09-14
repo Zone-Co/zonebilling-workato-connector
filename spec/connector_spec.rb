@@ -1,64 +1,37 @@
 # frozen_string_literal: true
 
-RSpec.describe 'actions/post_automation', :vcr do
+RSpec.describe 'connector', :vcr do
 
   let(:connector) { Workato::Connector::Sdk::Connector.from_file('connector.rb', settings) }
   let(:settings) { Workato::Connector::Sdk::Settings.from_encrypted_file('settings.yaml.enc', 'master.key') }
 
-  let(:action) { connector.actions.post_automation }
+  it { expect(connector).to be_present }
 
-  subject(:input) {
-    input = JSON.parse(File.read('fixtures/actions/create_record/input.json'))
-    # Change Company Name for Tests
-    input['record_fields']['externalid'] = 'workato-testcustomer-123'
-    input['options']['externalKey'] = 'externalid'
+  describe 'test' do
 
-    input
-  }
+    context 'given valid credentials' do
+      # Assign the output variable as the output of your test lambda
+      # Default call of ZAB API Export: zab_api_export, page=1, page_size=5
+      subject(:output) {connector.test(settings)}
 
-  subject(:output) {output = action.execute(settings, input)}
-
-  # Custom Export Results
-  let(:output_results) { output['results'] }
-  let(:output_result) { output_results[0] }
-
-  describe 'execute' do
-
-    context 'Given Valid Input: response' do
-
-      # Request Response
-      it 'is an object' do
+      it 'response object is returned' do
         expect(output).to be_kind_of(::Object)
       end
 
-      it 'contains a truthy success property' do
-        expect(output[:success]).to be_truthy
+      it 'response contains truthy success property' do
+        expect(output['success']).to be_truthy
       end
 
-      it 'contains a record id' do
-        expect(output[:internalid]).to be >= 1
+      it 'response page property is 1' do
+        expect(output['page']).to be == 1
       end
 
-      # ZAB Automation Properties
-      it 'contains a ZAB Automation reference id' do
-        expect(output[:reference_id]).to be >= 1
+      it 'response results property is less than or equal to 5' do
+        expect(output['results_returned']).to be <= 5
       end
 
-      it 'contains a results property' do
-        expect(output[:results]).to be_kind_of(::Array)
-      end
-
-      it 'results array length is 1' do
-        expect(output[:results].length).to eq(1)
-      end
-
-      it 'result result is an object' do
-        expect(output[:results][0]).to be_kind_of(::Object)
-      end
-
-      it 'result [internalid] matches' do
-        result = output[:results][0]
-        expect(result[:internalid][:value]).to eq(output[:internalid].to_s)
+      it 'response results property is an array' do
+        expect(output['results']).to be_kind_of(::Array)
       end
     end
   end
