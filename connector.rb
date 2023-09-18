@@ -2007,9 +2007,9 @@
 
     get_filter_parameters: lambda do |input|
       parameters = {}
-      options = input['options'] || {}
-      dynamic_filters = input['dynamic_filters'] || {}
-      filters = dynamic_filters['filters'] || []
+      options = input[:options] || {}
+      dynamic_filters = input[:dynamic_filters] || {}
+      filters = dynamic_filters[:filters] || []
 
       ## Normal Parameters
       options.map do |key, value|
@@ -2021,12 +2021,12 @@
       ## Dynamic Filter Parameters
       filters.map do |filter|
         parameter = [
-          filter['type'],
-          filter['operator'],
-          filter['field_id']
+          filter[:type],
+          filter[:operator],
+          filter[:field_id]
         ].join('_')
 
-        parameters[parameter] = filter['value']
+        parameters[parameter] = filter[:value]
       end
 
       parameters

@@ -17,5 +17,10 @@
     "subsidiary": "3",
     "companyname": "Workato Test (Created)",
     "email": "create@workato.com"
+  },
+  "sublist_fields": {
+    "currency": {
+      "currency": "1"
+    }
   }
 }
