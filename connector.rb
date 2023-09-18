@@ -1645,18 +1645,18 @@
 
         if (config_fields['record_type'])
           fields.push({
-                        name: "internalid",
-                        label: "Internal ID",
-                        type: :integer
-                      })
+            name: "internalid",
+            label: "Internal ID",
+            type: :integer
+          })
         end
 
         if (!options['automations'].blank?)
           fields.push({
-                        name: "reference_id",
-                        label: "Reference ID",
-                        type: :integer
-                      })
+            name: "reference_id",
+            label: "Reference ID",
+            type: :integer
+          })
         end
 
         if (options['export_id'])
@@ -1909,15 +1909,17 @@
 
     post: lambda do |connection, input, operation|
       ## Organize Options
-      options = input[:options] || {}
-      automations = options[:automations] || ''
+      options = input['options'] || {}
+      automations = options['automations'] || ''
+
+      puts(operation)
 
       ## Organize Payload Shell
       payload = {
         operation: operation,
         recordType: input['record_type'],
         externalKey: options['external_key'],
-        externalReferences: call(:get_external_references, input),
+        externalReferences: call(:get_external_references, options),
         export_id: options['export_id'],
         automations: automations.split(',')
       }.reject { |_, v|
@@ -2177,11 +2179,11 @@
       }
     end,
 
-    get_external_references: lambda do |input|
-      options = input['options'] || {}
-      external_references = options['external_references'] || []
+    get_external_references: lambda do |options|
+      input = options['external_references'] || []
 
-      external_references.map { |reference|
+      ## Sort through each reference and format properly
+      input.map { |reference|
         related_field_id = reference['related_field_id'] || ''
         related_attributes = related_field_id.split('.')
 
@@ -2191,8 +2193,6 @@
           relatedFieldId: related_attributes[1] # Related Record Field
         }
       }
-
-      external_references.empty? ? nil : external_references
     end,
 
     parse_record: lambda do |input|

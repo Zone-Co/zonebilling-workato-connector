@@ -1,0 +1,12 @@
+{
+  "record_type": "customer",
+  "options": {
+    "export_id": "zab_customer",
+    "automations": "1,2"
+  },
+  "record_fields": {
+    "internalid": 6783,
+    "companyname": "Workato Test (Upserted)",
+    "email": "upsert@workato.com"
+  }
+}
