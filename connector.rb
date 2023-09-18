@@ -1978,28 +1978,28 @@
         internalid: 101
       }
 
-      options = input['options'] || {}
+      options = input[:options] || {}
 
-      if (options['export_id'])
+      if (options[:export_id])
         response = call(:get_export_id, connection, input)
-        result['results'] = response['results'] || []
+        result[:results] = response[:results] || []
       end
 
-      if (options['automations'])
-        result['reference_id'] = 123
+      if (options[:automations])
+        result[:reference_id] = 123
       end
 
       result
     end,
 
     get_export_id: lambda do |connection, input|
-      options = input['options'] || {}
+      options = input[:options] || {}
       parameters = call(:get_filter_parameters, input)
 
       params = parameters.merge({
-        export_id: input['export_id'],
-        internalid: input['internal_id'],
-        externalid: input['external_id'],
+        export_id: input[:export_id] || options[:export_id],
+        internalid: input[:internal_id] || options[:internal_id],
+        externalid: input[:external_id] || options[:external_id],
       }.compact)
 
       call(:get, connection, params)
