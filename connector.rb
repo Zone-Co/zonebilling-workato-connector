@@ -1912,8 +1912,6 @@
       options = input['options'] || {}
       automations = options['automations'] || ''
 
-      puts(operation)
-
       ## Organize Payload Shell
       payload = {
         operation: operation,
