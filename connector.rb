@@ -1518,7 +1518,7 @@
             type: :integer,
             control_type: :integer,
             sticky: true,
-            optional: call(:is_transction_type, config_fields['record_type'])
+            optional: call(:is_transaction_type, config_fields['record_type'])
           }
         ]
       end
@@ -1844,12 +1844,12 @@
           end
 
           fields.push({
-                        name: "results",
-                        label: "Results",
-                        type: :array,
-                        of: :object,
-                        properties: record_fields
-                      })
+            name: "results",
+            label: "Results",
+            type: :array,
+            of: :object,
+            properties: record_fields
+          })
         end
 
         fields
@@ -2223,7 +2223,7 @@
       }
     end,
 
-    is_transction_type: lambda do |record_type|
+    is_transaction_type: lambda do |record_type|
       transction_types = [
         'invoice',
         'cashsale',
