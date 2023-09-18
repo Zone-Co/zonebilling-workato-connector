@@ -1626,11 +1626,11 @@
 
         if (!sublist_fields.blank?)
           fields.push({
-                        name: 'sublist_fields',
-                        label: 'Sublists',
-                        type: :object,
-                        properties: sublist_fields
-                      })
+            name: 'sublist_fields',
+            label: 'Sublists',
+            type: :object,
+            properties: sublist_fields
+          })
         end
 
         fields
@@ -1773,7 +1773,7 @@
           {
             name: 'page_number',
             label: 'Page Number',
-            hint: 'Specifiy a specific page number you would like received',
+            hint: 'Specify a specific page number you would like received',
             ngIf: 'input.options.return_all == "false"',
             type: :integer,
             control_type: :integer,
