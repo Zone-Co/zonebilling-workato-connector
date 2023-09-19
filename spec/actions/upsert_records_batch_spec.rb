@@ -1,50 +1,37 @@
 # frozen_string_literal: true
 
-RSpec.describe 'actions/upsert_records_batch', :vcr do
+RSpec.describe 'actions/update_records_batch', :vcr do
 
   let(:connector) { Workato::Connector::Sdk::Connector.from_file('connector.rb', settings) }
   let(:settings) { Workato::Connector::Sdk::Settings.from_encrypted_file('settings.yaml.enc', 'master.key') }
-
-  let(:action) { connector.actions.upsert_records_batch }
+  let(:action) { connector.actions.update_records_batch }
+  let(:get) { connector.actions.update_records_batch }
 
   subject(:input) {
-    input = JSON.parse(File.read('fixtures/actions/create_record/input.json'))
-    options = input['options']
-    options['externalKey'] = 'externalid'
-    options.delete('export_id')
-
-    # Manipulate the record input selections
-    record_fields = input['record_fields'].clone
-    record_fields['externalid'] = 'workato-testcustomer-123'
-    input.delete('record_fields')
-
-    # Create Array for Tests
-    input['records'] = 50.times.map {
-      record_fields.clone
-    }
-
-    input
+    input = JSON.parse(File.read('fixtures/methods/post/input/upsert.json'))
   }
+  context 'execute' do
 
-  subject(:output) {output = action.execute(settings, input)}
+    subject(:output) {output = action.execute(settings, {
+      "record_type": input['record_type'],
+      "options": input['options'],
+      "external_key": "internalid",
+      "records": [
+        input['record_fields'],
+        input['record_fields']
+      ]
+    })}
 
-  describe 'execute' do
-
-    context 'Given Valid Input: response' do
-
-      # Request Response
-      it 'is an object' do
-        expect(output).to be_kind_of(::Object)
-      end
-
-      it 'contains a truthy success property' do
-        expect(output[:success]).to be_truthy
-      end
-
-      # ZAB Automation for ZAB Bulk API
-      it 'contains a ZAB Bulk API Reference ID' do
-        expect(output[:reference_id]).to be >= 1
-      end
+    # Request Response
+    it 'response is valid' do
+      expect(output).to be_kind_of(Object)
+      expect(output['success']).to be_truthy
+      expect(output['reference_id']).to be_kind_of(Integer)
     end
+
+    subject(:process_output) { get.execute(settings, {
+      'export_id' => 'zab_process',
+      'internalid' => output['reference_id']
+    })}
   end
 end

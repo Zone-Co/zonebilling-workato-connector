@@ -8,14 +8,13 @@ RSpec.describe 'actions/update_records_batch', :vcr do
   let(:get) { connector.actions.update_records_batch }
 
   subject(:input) {
-    input = JSON.parse(File.read('fixtures/methods/post/input/create.json'))
+    input = JSON.parse(File.read('fixtures/methods/post/input/upsert.json'))
   }
   context 'execute' do
 
     subject(:output) {output = action.execute(settings, {
       "record_type": input['record_type'],
       "options": input['options'],
-      "external_key": "internalid",
       "records": [
         input['record_fields'],
         input['record_fields']

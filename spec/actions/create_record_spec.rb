@@ -8,7 +8,7 @@ RSpec.describe 'actions/create_record', :vcr do
   let(:action) { connector.actions.create_record }
 
   subject(:input) {
-    input = JSON.parse(File.read('fixtures/methods/post/input/update.json'))
+    input = JSON.parse(File.read('fixtures/methods/post/input/create.json'))
   }
   subject(:output) { action.execute(settings, input) }
 
@@ -23,6 +23,15 @@ RSpec.describe 'actions/create_record', :vcr do
 
       expect(output['internalid']).to be >= 1 ## Any post operation for a record will contain an internalid property in the response
       expect(output['reference_id']).to be >= 1 # ZAB Automation Properties
+
+      ## Given the 'export_id' property of the request body
+      expect(output['results']).to be_kind_of(::Array)
+      expect(output['results'].length).to eq(1)
+
+      ## The result object should contain the property for internalid and the value match the response id
+      result = output['results'][0]
+      expect(result).to be_kind_of(::Object)
+      expect(result['internalid']['value']).to eq(output['internalid'].to_s)
     end
   end
 
@@ -37,6 +46,11 @@ RSpec.describe 'actions/create_record', :vcr do
     it 'contains reference_id' do
       expect(sample_output['reference_id']).to be == 123
       expect(sample_output).to have_key('reference_id')
+    end
+
+    it 'contains results' do
+      expect(sample_output['results']).to be_kind_of(Object)
+      expect(sample_output).to have_key('results')
     end
   end
 
@@ -65,6 +79,10 @@ RSpec.describe 'actions/create_record', :vcr do
 
     it 'contains reference_id' do
       expect(output_fields[1]['name']).to eq('reference_id')
+    end
+
+    it 'contains results' do
+      expect(output_fields[2]['name']).to eq('results')
     end
   end
 end

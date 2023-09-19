@@ -1,65 +1,78 @@
 # frozen_string_literal: true
 
-RSpec.describe 'actions/upsert_record', :vcr do
+RSpec.describe 'actions/create_record', :vcr do
 
   let(:connector) { Workato::Connector::Sdk::Connector.from_file('connector.rb', settings) }
   let(:settings) { Workato::Connector::Sdk::Settings.from_encrypted_file('settings.yaml.enc', 'master.key') }
 
-  let(:action) { connector.actions.upsert_record }
+  let(:action) { connector.actions.create_record }
 
   subject(:input) {
-    input = JSON.parse(File.read('fixtures/actions/create_record/input.json'))
-    # Change Company Name for Tests
-    input['record_fields']['externalid'] = 'workato-testcustomer-123'
-    input['options']['externalKey'] = 'externalid'
-
-    input
+    input = JSON.parse(File.read('fixtures/methods/post/input/upsert.json'))
   }
+  subject(:output) { action.execute(settings, input) }
 
-  subject(:output) {output = action.execute(settings, input)}
+  context 'execute' do
 
-  # Custom Export Results
-  let(:output_results) { output['results'] }
-  let(:output_result) { output_results[0] }
+    # Request Response
+    it 'is an object with success' do
 
-  describe 'execute' do
+      ## General Response
+      expect(output).to be_kind_of(::Object)
+      expect(output['success']).to be_truthy
 
-    context 'Given Valid Input: response' do
+      expect(output['internalid']).to be >= 1 ## Any post operation for a record will contain an internalid property in the response
 
-      # Request Response
-      it 'is an object' do
-        expect(output).to be_kind_of(::Object)
-      end
+      ## Given the 'export_id' property of the request body
+      expect(output['results']).to be_kind_of(::Array)
+      expect(output['results'].length).to eq(1)
 
-      it 'contains a truthy success property' do
-        expect(output[:success]).to be_truthy
-      end
+      ## The result object should contain the property for internalid and the value match the response id
+      result = output['results'][0]
+      expect(result).to be_kind_of(::Object)
+      expect(result['internalid']['value']).to eq(output['internalid'].to_s)
+    end
+  end
 
-      it 'contains a record id' do
-        expect(output[:internalid]).to be >= 1
-      end
+  describe 'sample_output' do
+    subject(:sample_output) { action.sample_output(settings, input) }
 
-      # ZAB Automation Properties
-      it 'contains a ZAB Automation reference id' do
-        expect(output[:reference_id]).to be >= 1
-      end
+    it 'contains internalid' do
+      expect(sample_output['internalid']).to be == 101
+      expect(sample_output).to have_key('internalid')
+    end
 
-      it 'contains a results property' do
-        expect(output[:results]).to be_kind_of(::Array)
-      end
+    it 'contains results' do
+      expect(sample_output['results']).to be_kind_of(Object)
+      expect(sample_output).to have_key('results')
+    end
+  end
 
-      it 'results array length is 1' do
-        expect(output[:results].length).to eq(1)
-      end
+  describe 'input_fields' do
+    subject(:input_fields) { action.input_fields(settings, input) }
 
-      it 'result result is an object' do
-        expect(output[:results][0]).to be_kind_of(::Object)
-      end
+    it 'is an array' do
+      expect(input_fields).to be_kind_of(Array)
+    end
 
-      it 'result [internalid] matches' do
-        result = output[:results][0]
-        expect(result[:internalid][:value]).to eq(output[:internalid].to_s)
-      end
+    it 'contains options group' do
+      expect(input_fields[0]['name']).to eq('options')
+    end
+
+    it 'contains record fields group' do
+      expect(input_fields[1]['name']).to eq('record_fields')
+    end
+  end
+
+  describe 'output_fields' do
+    subject(:output_fields) { action.output_fields(settings, input) }
+
+    it 'contains internalid' do
+      expect(output_fields[0]['name']).to eq('internalid')
+    end
+
+    it 'contains results' do
+      expect(output_fields[1]['name']).to eq('results')
     end
   end
 end

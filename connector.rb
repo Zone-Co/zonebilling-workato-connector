@@ -639,7 +639,7 @@
 
       execute: lambda do |connection, input|
         call(:post, connection, {
-          options: input
+          'options' => input
         }, nil)
       end,
 
