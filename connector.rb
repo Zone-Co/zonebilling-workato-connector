@@ -2178,19 +2178,19 @@
     end,
 
     get_external_references: lambda do |options|
-      input = options['external_references'] || []
+      input = options[:external_references] || []
 
       ## Sort through each reference and format properly
-      input.map { |reference|
-        related_field_id = reference['related_field_id'] || ''
+      input.map do |reference|
+        related_field_id = reference[:related_field_id] || ''
         related_attributes = related_field_id.split('.')
 
         {
-          fieldId: reference['field_id'],
+          fieldId: reference[:field_id],
           relatedRecordType: related_attributes[0], # Related Record Type
           relatedFieldId: related_attributes[1] # Related Record Field
         }
-      }
+      end
     end,
 
     parse_record: lambda do |input|
