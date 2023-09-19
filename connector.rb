@@ -1978,28 +1978,28 @@
         internalid: 101
       }
 
-      options = input[:options] || {}
+      options = input['options'] || {}
 
-      if (options[:export_id])
+      if (options['export_id'])
         response = call(:get_export_id, connection, input)
-        result[:results] = response[:results] || []
+        result['results'] = response['results'] || []
       end
 
-      if (options[:automations])
-        result[:reference_id] = 123
+      if (options['automations'])
+        result['reference_id'] = 123
       end
 
       result
     end,
 
     get_export_id: lambda do |connection, input|
-      options = input[:options] || {}
+      options = input['options'] || {}
       parameters = call(:get_filter_parameters, input)
 
       params = parameters.merge({
-        export_id: input[:export_id] || options[:export_id],
-        internalid: input[:internal_id] || options[:internal_id],
-        externalid: input[:external_id] || options[:external_id],
+        export_id: input['export_id'] || options['export_id'],
+        internalid: input['internal_id'] || options['internal_id'],
+        externalid: input['external_id'] || options['external_id'],
       }.compact)
 
       call(:get, connection, params)
@@ -2007,9 +2007,9 @@
 
     get_filter_parameters: lambda do |input|
       parameters = {}
-      options = input[:options] || {}
-      dynamic_filters = input[:dynamic_filters] || {}
-      filters = dynamic_filters[:filters] || []
+      options = input['options'] || {}
+      dynamic_filters = input['dynamic_filters'] || {}
+      filters = dynamic_filters['filters'] || []
 
       ## Normal Parameters
       options.map do |key, value|
@@ -2021,12 +2021,12 @@
       ## Dynamic Filter Parameters
       filters.map do |filter|
         parameter = [
-          filter[:type],
-          filter[:operator],
-          filter[:field_id]
+          filter['type'],
+          filter['operator'],
+          filter['field_id']
         ].join('_')
 
-        parameters[parameter] = filter[:value]
+        parameters[parameter] = filter['value']
       end
 
       parameters
@@ -2178,15 +2178,15 @@
     end,
 
     get_external_references: lambda do |options|
-      input = options[:external_references] || []
+      input = options['external_references'] || []
 
       ## Sort through each reference and format properly
       input.map do |reference|
-        related_field_id = reference[:related_field_id] || ''
+        related_field_id = reference['related_field_id'] || ''
         related_attributes = related_field_id.split('.')
 
         {
-          fieldId: reference[:field_id],
+          fieldId: reference['field_id'],
           relatedRecordType: related_attributes[0], # Related Record Type
           relatedFieldId: related_attributes[1] # Related Record Field
         }

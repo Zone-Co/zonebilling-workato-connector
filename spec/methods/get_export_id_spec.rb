@@ -11,8 +11,8 @@ RSpec.describe 'methods/get_export_id', :vcr do
   context 'when export_id is provided' do
 
     request_params = {
-      :options => {
-        :export_id => 'zab_customer'
+      'options' => {
+        'export_id' => 'zab_customer'
       }
     }
     subject(:result) { connector.methods.get_export_id(connector.connection, request_params) }
@@ -45,9 +45,9 @@ RSpec.describe 'methods/get_export_id', :vcr do
   context 'when internal_id is provided' do
 
     request_params = {
-      :internal_id => 6783,
-      :options => {
-        :export_id => 'zab_customer'
+      'internal_id' => 6783,
+      'options' => {
+        'export_id' => 'zab_customer'
       }
     }
     subject(:result_with_internalid) { connector.methods.get_export_id(connector.connection, request_params) }

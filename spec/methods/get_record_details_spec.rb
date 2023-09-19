@@ -31,15 +31,15 @@ RSpec.describe 'methods/get_record_details', :vcr do
     end
 
     it 'should return a success' do
-      expect(result_with_record_type[:success]).to be_truthy
+      expect(result_with_record_type['success']).to be_truthy
     end
 
     it 'should return fields' do
-      expect(result_with_record_type[:fields]).to be_kind_of(Array)
+      expect(result_with_record_type['fields']).to be_kind_of(Array)
     end
 
     it 'should return sublists' do
-      expect(result_with_record_type[:sublists]).to be_kind_of(Array)
+      expect(result_with_record_type['sublists']).to be_kind_of(Array)
     end
   end
 

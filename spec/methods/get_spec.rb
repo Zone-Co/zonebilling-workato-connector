@@ -19,15 +19,15 @@ RSpec.describe 'methods/get', :vcr do
     end
 
     it 'response contains page properties' do
-      expect(result[:page]).to be >= 1
-      expect(result[:total_pages]).to be >= 1
-      expect(result[:results_returned]).to be >= 1
-      expect(result[:results_returned]).to be >= 1
+      expect(result['page']).to be >= 1
+      expect(result['total_pages']).to be >= 1
+      expect(result['results_returned']).to be >= 1
+      expect(result['results_returned']).to be >= 1
     end
 
     it 'response results' do
-      expect(result[:results]).to be_kind_of(Array)
-      result[:results].each do |result_object|
+      expect(result['results']).to be_kind_of(Array)
+      result['results'].each do |result_object|
         expect(result_object).to be_kind_of(Object)
       end
     end

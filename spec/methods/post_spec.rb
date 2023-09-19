@@ -91,16 +91,20 @@ RSpec.describe 'methods/post', :vcr do
     end
 
     let(:automations_input) { JSON.parse(File.read("fixtures/methods/post/input/automations.json")) }
-    let(:automations_output) { methods.post(connector.connection, automations_input, nil) }
+    let(:automations_output) { methods.post(connector.connection, {
+      'options' => {
+        'automations' => '1,2'
+      }
+    }, '') }
 
     it "automations" do
 
       ## Validate Data Type
       expect(automations_output).to be_kind_of(::Object)
       ## By default, the ZAB API always returns a `success` param in the response
-      expect(automations_output[:success]).to be_truthy
+      expect(automations_output['success']).to be_truthy
       # ZAB Automation Properties
-      expect(automations_output[:reference_id]).to be >= 1
+      expect(automations_output['reference_id']).to be_kind_of(Integer)
 
     end
   end

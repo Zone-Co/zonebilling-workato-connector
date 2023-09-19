@@ -20,7 +20,7 @@ RSpec.describe 'methods/validate_response', :vcr do
     end
 
     it 'returns response status' do
-      expect(result_success[:success]).to be_truthy
+      expect(result_success['success']).to be_truthy
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe 'methods/validate_response', :vcr do
     end
 
     it 'returns response status' do
-      expect(result_success_with_array[0][:success]).to be_truthy
+      expect(result_success_with_array[0]['success']).to be_truthy
     end
   end
 
