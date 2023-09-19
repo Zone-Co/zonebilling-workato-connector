@@ -1006,13 +1006,15 @@
       end,
 
       output_fields: lambda do |object_definitions, connection, config_fields|
-        {
-          name: 'files',
-          label: 'Files',
-          type: :array,
-          of: :object,
-          properties: object_definitions['get_file_response']
-        }
+        [
+          {
+            name: 'files',
+            label: 'Files',
+            type: :array,
+            of: :object,
+            properties: object_definitions['get_file_response']
+          }
+        ]
       end,
 
       sample_output: lambda do |connection, input|
