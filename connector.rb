@@ -2224,7 +2224,7 @@
     end,
 
     is_transaction_type: lambda do |record_type|
-      transction_types = [
+      transaction_types = [
         'invoice',
         'cashsale',
         'salesorder',
@@ -2241,7 +2241,7 @@
         'customerdeposit'
       ]
 
-      transction_types.include? record_type
+      transaction_types.include? record_type
     end,
 
     parse_record_field_key: lambda do |key|
