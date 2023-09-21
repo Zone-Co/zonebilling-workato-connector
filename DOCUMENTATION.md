@@ -2,11 +2,7 @@
 
 ## Owners ##
 
-* Zone & Co. Software Consulting LLC
-
-## Repository Information ##
-* [GitHub Repository](https://github.com/Zone-Co/zonebilling-workato-connector) - _Primary Development Repository_
-* [Bitbucket Repository](https://bitbucket.org/zone-co/zone-billing-workato-connector/src/master/) - _Copy_
+* [Zone & Co. Software Consulting LLC](https://zoneandco.com)
 
 ## How do I connect to NetSuite via the Workato Connector? ##
 

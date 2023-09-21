@@ -1,19 +1,29 @@
-# Setting up your Connector Repository
-Welcome to your provisioned connector repository! This Github repository is provisioned for your connector and will contain all related assets including important partnership details, your connector code and related unit tests.
+# ZoneBilling Connector for Workato
 
-This repository requires that you use [Workato CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli) to develop the connector and its related tests. We advise you to read through the CLI documentation to understand how to use Workato's ruby libraries to develop and test locally. 
+The ZoneBilling Connector for Workato is a Ruby-based connector that allows Workato users to connect to the [ZoneBilling API](https://zab-docs.zoneandco.com/) to perform various actions in their NetSuite account provisioned with ZoneBilling. 
+
+Instructions for settings up the connector within the Workato Platform can be found [in the documentation file](DOCUMENTATION.md).
+
+### Repository Information ###
+* [GitHub Repository](https://github.com/Zone-Co/zonebilling-workato-connector) - **Primary** Development Repository
+* [Bitbucket Repository](https://bitbucket.org/zone-co/zone-billing-workato-connector/src/master/) - _Copy_
+
+### Overview ###
+1. Pre-requisites
+2. Connection Settings
+3. Running connector code locally
+4. Code Style & Formatting
+5. Writing unit tests
+6. Recording VSR Tapes
 
 ## Pre-requisites
-1. You have an understanding of the Workato Connector SDK and SDK CLI
-2. You have received your master.key file from the Workato team. **IMPORTANT** This key is also stored as a secret in your Github repository for running rSpec tests. Do not share this key with anyone outside of your team
+1. Installing and understanding of the [Workato Connector SDK](https://docs.workato.com/developing-connectors/sdk.html) and [SDK CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli)
+2. You have received the `master.key` file from the lead developer on the project. **IMPORTANT** This key is used to decrypt all encrypted files such as those in `./tape_library` and `settings.yaml.enc`. Do not share this key with anyone outside your team
 
-## Getting started
-Use the [Connector SDK CLI](https://docs.workato.com/developing-connectors/sdk/cli.html) to run your connector code. It's a Ruby software package that emulates how Workato would parse and execute your connector code. Below, we go through some basic examples but full guides and details can be found in our documentation.
+## Connection Settings
+Connection settings consists of sensitive information like passwords or other secrets. For local development and testing, these connection settings are stored in the encrypted fil, e.g. `settings.yaml.enc`, which is natively decrypted by the `master.key` file when running the [Workato CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli).
 
-## Provide connection settings for local testing
-Connection settings consists of sensitive information like passwords or other secrets. That's why connection settings are stored in an encrypted fil, e.g. `settings.yaml.enc`. You will need to have the secret key passed to you by the Workato team stored as `master.key` in your local project directory.
-
-Alternatively, run this command on terminal to create or update connection settings file:
+Run this command on terminal to create or update connection settings file:
 
 ```bash
 EDITOR="nano" workato edit settings.yaml.enc
@@ -22,14 +32,25 @@ EDITOR="nano" workato edit settings.yaml.enc
 This is an example settings file (YAML format):
 
 ```yaml
-username: test_un
-password: test_pw
+account_id: 1234567-SB1
+certificate_id: abcdefghijklmopqrstuvwxyz1234567890
+client_id: abcdefghijklmopqrstuvwxyz1234567890
+private_key: |
+    -----BEGIN EC PRIVATE KEY-----
+    exampleexampleexampleexampleexampleexampleexampleexampleexamplee
+    xampleexampleexampleexampleexampleexampleexampleexampleexampleex
+    ampleexampleexampleexampleexampleexa
+    -----END EC PRIVATE KEY-----
 ```
 
-## Running connector code locally
-In the below example, we are going to use the `app_name` connector as an example and execute the `test` block and action block `get_user`.
+This file's contents mock what properties are available with the `connection` attribute in the [connector.rb](connector.rb) code, influenced by the fields defined on the connection.
 
-To run the execute portion of the `test` code from the connector folder:
+Please Note:
+The `private_key` field is a multi-line string that is indented by 4 spaces. A leading `|` character is need to indicate that this is a multi-line string. This is important as the Workato CLI will not be able to decrypt the file if the `private_key` field is not indented properly.
+
+
+## Running connector code locally
+The [Workato CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli) can be used to run connector actions locally. For example: we can run the `test` functionality of the connector:
 
 ```bash
 workato exec test
@@ -37,78 +58,53 @@ workato exec test
 
 Refer to [Connector SDK CLI Documentation](https://docs.workato.com/developing-connectors/sdk/cli/guides/getting-started.html) to learn about using the `workato` CLI.
 
-## Code styling and formatting
+## Code Style & Formatting
 
 Use [RuboCop](https://rubocop.org/) to check your code style (linting) and to format your code based on the community-driven [Ruby Style Guide](https://rubystyle.guide/).
 
-In case of using the pre-configured Visual Studio Code development environment, RuboCop will be executes automatically and warnings will be shown in the Visual Studio Code user interface.
-    
-![problems-view](.devcontainer/problems-view.png)
-
-Otherwise, you can run `rubocop` manually with no arguments to check all Ruby source files in the current folder and subfolders:
+You can run `rubocop` manually with no arguments to check all Ruby source files in the current folder and subfolders:
 
 ```bash
-$ rubocop
+$ bundle exec rubocop
 ```
 
-Alternatively you can pass `rubocop` a list of files and folders to check:
+Alternatively you can pass `rubocop` a specific file or folder to check:
 
 ```bash
-$ rubocop connector.rb
+$ bundle exec rubocop connector.rb
 ```
 
 Refer to [RuboCop Documentation](https://docs.rubocop.org/rubocop/1.12/usage/basic_usage.html) to learn about using the `rubocop` CLI.
 
 ## Writing unit tests
 
-Use [RSpec](https://rspec.info/) to develop behaviour driven unit tests.
+[RSpec](https://rspec.info/) is used to for behaviour driven unit tests.
 
-Place unit test files (aka spec-files) files in the `spec` folder of your connector folder and make sure the filenames end with `_spec.rb`. Refer to [Workato How-to Guide](https://docs.workato.com/developing-connectors/sdk/cli/guides/rspec/writing_tests.html) to learn more about writing tests for any lambda in your connector.
+All unit test files (aka spec-files) files are in the `./spec` folder of your connector folder and filenames end with `_spec.rb`. Please reference the [Workato How-to Guide](https://docs.workato.com/developing-connectors/sdk/cli/guides/rspec/writing_tests.html).
 
-In case of using the pre-configured Visual Studio Code development environment, RSpec unit tests will be shown in the Test Explorer:
-
-![text-explorer](.devcontainer/test-explorer.png)
-
-Otherwise, you can run RSpec unit tests manually. Running `rspec .` from root of the repository will run all RSpec tests for all connectors:
+The [Workato CLI](https://docs.workato.com/developing-connectors/sdk/cli/guides/rspec/writing_tests.html#generating-your-tests) can automatically generate shells of the unit test files by running:
 
 ```bash
-$ rspec .
+workato generate test
 ```
 
-Alternatively you can pass `rspec` a list of files and directories to check. E.g. to run the tests for the `app_name` connector:
+You can run RSpec unit tests manually. Running `rspec .` from root of the repository will run all RSpec tests for all connectors:
 
 ```bash
-$ rspec spec/connector_spec.rb
+$ bundle exec rspec spec/
+```
+
+Alternatively you can pass `rspec` a specific file or folder to check:
+
+```bash
+$ bundle exec rspec spec/connector_spec.rb
 ```
 
 Refer to [RSpec Documentation](https://rspec.info/documentation/3.10/rspec-core/#basic-structure) to learn about creating unit tests and using the `rspec` CLI.
 
-## Generate output json files
-
-Generate unit test files by running _Tasks: Run Tasks_ command from the [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) and selecting _Generate output json files_.
-
-Alternatively, run this command on terminal to generate unit test files:
-
-    ```bash
-    ./automate app_name generate_output
-    ```
-
-Follow the prompt on the terminal to generate the output json file for each action in the correct folder directory.
-
-**Important: Provide the required input json files in the input folder before running this task.**
-
-This is an example of the prompt sequence for generating output json files for an action:
-
-```bash
-"Enter the attribute name you want to generate for:" action
-"Enter the action name:" get_record
-"Are there multiple objects? (Y/N):" y
-"Enter the object name:" event
-```
-
-This results in the file get_record_event.json being created in the output/actions of the application or service directory.
-
 ## Recording VSR Tapes
+
+VSR Tapes are used to record the responses from the ZoneBilling API. These tapes are used to mock the API responses when running unit tests. This allows for the unit tests to be run without the need for a live connection to the ZoneBilling API, drastically decreasing the time it takes to run the tests.
 
 To record a tape, you can execute the following with an indicated file path of the rspec test.
 ```bash
@@ -119,3 +115,19 @@ To receive the contents of your VCR tapes for review you can load them with the 
 ```bash
 EDITOR="nano" workato edit tape_library/
 ```
+
+## Git Management
+
+### Branches
+1. `main` - **Primary** branch for production code
+2. `release/*` - Branches for release candidates
+3. `feature/*` - Branches for feature development enhancements
+4. `bugfix/*` - Branches for bug fixes
+
+### Pull Requests
+1. Active Feature Pull requests should be made from `feature/*` and `bugfix/*` branches to `release/*` branches for Zone internal development review
+2. Finalize release pull requests should be made from `release/*` branches to `main` branch and reviewed by the Workato Connector Engineering team:
+   1. Bennet Goh [GitHub](https://github.com/bennettgo) / [Email](mailto:bennett.goh@workato.com)
+   2. Denis Sergeyev [GitHub](https://github.com/den-sergeyev-workao) / [Email](mailto:denis.sergeyev@workato.com)
+   3. Pavel Abolmasov [GitHub](https://github.com/pavel-workato) / [Email](mailto:pavel.abolmasov@workato.com)
+   4. Sergey Zaretskiy [GitHub](https://github.com/szaretsky) / [Email](mailto:szaretsky@workato.com)
