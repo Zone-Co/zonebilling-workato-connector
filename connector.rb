@@ -627,16 +627,11 @@
 
       description: lambda do |input, picklist_label|
         value = input['automations'] || []
-        automations = value.split(',')
-        index = automations.length > 1 ? 2 : automations.length
+        automations = value.split(',') || []
 
-        label_indexes = [
-          'a ZAB Automation',                     # No Automation selected, Default value
-          picklist_label['automations'],          # 1 Automation Selected, show label
-          "#{automations.length} ZAB Automations" # 2 or More Automations, show "multiple"
-        ]
+        label = automations.length > 1 ? "#{automations.length} ZAB Automations" : 'a ZAB Automation'
 
-        "Kick off <span class='provider'>#{label_indexes[index]}</span> in <span class='provider'>NetSuite</span>"
+        "Kick off <span class='provider'>#{label}</span> in <span class='provider'>NetSuite</span>"
       end,
 
       display_priority: 5,
