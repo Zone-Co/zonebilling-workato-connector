@@ -4,9 +4,19 @@ The ZoneBilling Connector for Workato is a Ruby-based connector that allows Work
 
 Instructions for settings up the connector within the Workato Platform can be found [in the documentation file](DOCUMENTATION.md).
 
-### Repository Information ###
-* [GitHub Repository](https://github.com/Zone-Co/zonebilling-workato-connector) - **Primary** Development Repository
-* [Bitbucket Repository](https://bitbucket.org/zone-co/zone-billing-workato-connector/src/master/) - _Copy_
+### Contact details
+
+#### Partnerships Contact
+- Full Name: Keith Goldschmidt
+- Email: [keithgoldschmidt@zoneandco.com](mailto:keithgoldschmidt@zoneandco.com)
+
+#### Developer Contact
+- Full Name: Tyler Santos
+- Email: [tylersantos@zoneandco.com](mailto:tylersantos@zoneandco.com)
+
+#### Product Contact
+- Full Name: Amy Nelson
+- Email: [amynelson@zoneandco.com](mailto:amynelson@zoneandco.com)
 
 ### Overview ###
 1. Pre-requisites
@@ -15,6 +25,8 @@ Instructions for settings up the connector within the Workato Platform can be fo
 4. Code Style & Formatting
 5. Writing unit tests
 6. Recording VSR Tapes
+7. Git Management
+8. Deployments
 
 ## Pre-requisites
 1. Installing and understanding of the [Workato Connector SDK](https://docs.workato.com/developing-connectors/sdk.html) and [SDK CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli)
@@ -76,7 +88,7 @@ $ bundle exec rubocop connector.rb
 
 Refer to [RuboCop Documentation](https://docs.rubocop.org/rubocop/1.12/usage/basic_usage.html) to learn about using the `rubocop` CLI.
 
-## Writing unit tests
+## Writing Unit Tests
 
 [RSpec](https://rspec.info/) is used to for behaviour driven unit tests.
 
@@ -118,6 +130,24 @@ EDITOR="nano" workato edit tape_library/
 
 ## Git Management
 
+### Repository Information ###
+* [GitHub Repository](https://github.com/Zone-Co/zonebilling-workato-connector) - **Primary** Development Repository
+* [Bitbucket Repository](https://bitbucket.org/zone-co/zone-billing-workato-connector/src/master/) - _Copy_
+  * Synced with GitHub Repository by executing local code
+  * You must have local write access to the Bitbucket repository
+    ```bash
+    # Set a new remote named `bitbucket`
+    git remote add bitbucket git@bitbucket.org:zone-co/zone-billing-workato-connector.git
+    ```
+    ```bash
+    # Verify new remote
+    git remote -v
+    ```
+    ```bash
+    # Push the code to the new remote
+    git push bitbucket
+    ```
+
 ### Branches
 1. `main` - **Primary** branch for production code
 2. `release/*` - Branches for release candidates
@@ -131,3 +161,14 @@ EDITOR="nano" workato edit tape_library/
    2. Denis Sergeyev [GitHub](https://github.com/den-sergeyev-workao) / [Email](mailto:denis.sergeyev@workato.com)
    3. Pavel Abolmasov [GitHub](https://github.com/pavel-workato) / [Email](mailto:pavel.abolmasov@workato.com)
    4. Sergey Zaretskiy [GitHub](https://github.com/szaretsky) / [Email](mailto:szaretsky@workato.com)
+
+## Deployments
+The Workato connector can be deployed to the Workato platform using the [Workato CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli). 
+Once it is installed the following command will execute the upload. Note: You will need to have access to the configured Workato API key to execute this command.
+```bash
+workato push --title="ZoneBilling for NetSuite" 
+  --description=./Connector_details.md 
+  --logo=./logo.png 
+  --connector=./connector.rb 
+  --api-token= ##Insert API Token Here##
+```
