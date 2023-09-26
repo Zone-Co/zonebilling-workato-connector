@@ -16,7 +16,7 @@ RSpec.describe 'actions/get_file', :vcr do
     }) }
 
     it ('returns a file') do
-      expect(output).to be_kind_of(Object)
+      expect(output).to be_kind_of(::Hash)
       expect(output['file']).to have_key(:name)
       expect(output['file']).to have_key(:description)
       expect(output['file']).to have_key(:contents)
@@ -27,7 +27,7 @@ RSpec.describe 'actions/get_file', :vcr do
     subject(:sample_output) { action.sample_output(settings, {}) }
 
     it 'returns 3 values' do
-      expect(sample_output).to be_kind_of(Object)
+      expect(sample_output).to be_kind_of(::Hash)
       expect(sample_output).to have_key(:name)
       expect(sample_output).to have_key(:description)
       expect(sample_output).to have_key(:contents)

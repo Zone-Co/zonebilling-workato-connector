@@ -18,7 +18,7 @@ RSpec.describe 'actions/create_record', :vcr do
     it 'is an object with success' do
 
       ## General Response
-      expect(output).to be_kind_of(::Object)
+      expect(output).to be_kind_of(::Hash)
       expect(output['success']).to be_truthy
 
       expect(output['internalid']).to be >= 1 ## Any post operation for a record will contain an internalid property in the response
@@ -30,7 +30,7 @@ RSpec.describe 'actions/create_record', :vcr do
 
       ## The result object should contain the property for internalid and the value match the response id
       result = output['results'][0]
-      expect(result).to be_kind_of(::Object)
+      expect(result).to be_kind_of(::Hash)
       expect(result['internalid']['value']).to eq(output['internalid'].to_s)
     end
   end
@@ -49,7 +49,7 @@ RSpec.describe 'actions/create_record', :vcr do
     end
 
     it 'contains results' do
-      expect(sample_output['results']).to be_kind_of(Object)
+      expect(sample_output['results']).to be_kind_of(::Array)
       expect(sample_output).to have_key('results')
     end
   end

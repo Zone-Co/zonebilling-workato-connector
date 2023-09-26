@@ -14,7 +14,7 @@ RSpec.describe 'actions/post_automation', :vcr do
 
     # Request Response
     it 'returns a reference id' do
-      expect(output).to be_kind_of(Object)
+      expect(output).to be_kind_of(::Hash)
       expect(output['reference_id']).to be >= 1
     end
   end

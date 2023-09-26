@@ -836,7 +836,7 @@
         {
           name: 'internal_id',
           label: 'Identifier',
-          hint: 'Specifiy a specific record internal id you would like to retrieve',
+          hint: 'Specify a specific record internal id you would like to retrieve',
           control_type: :integer,
           type: :integer,
           sticky: true,
@@ -844,7 +844,7 @@
           toggle_field: {
             name: 'external_id',
             label: 'Identifier',
-            hint: 'Specifiy a specific record external id you would like to retreieve.',
+            hint: 'Specify a specific record external id you would like to retrieve.',
             control_type: :integer,
             type: :integer,
             toggle_hint: 'External ID'
@@ -935,7 +935,7 @@
         {
           name: 'record_id',
           label: 'Record ID',
-          hint: 'Specifiy the specific record internal ID you would like to retrieve',
+          hint: 'Specify the specific record internal ID you would like to retrieve',
           type: :integer,
           control_type: :integer,
           optional: false
@@ -1005,7 +1005,7 @@
         {
           name: 'record_id',
           label: 'Record ID',
-          hint: 'Specifiy the specific record internal ID you would like to retrieve',
+          hint: 'Specify the specific record internal ID you would like to retrieve',
           type: :integer,
           control_type: :integer,
           optional: false
@@ -1057,7 +1057,7 @@
         {
           name: 'record_id',
           label: 'File ID',
-          hint: 'Specifiy the specific file ID you would like to retrieve from the File Cabinet',
+          hint: 'Specify the specific file ID you would like to retrieve from the File Cabinet',
           type: :integer,
           control_type: :integer,
           optional: false
@@ -1565,7 +1565,7 @@
             delimiter: ',',
             pick_list: 'automations',
             extends_schema: true,
-            optional: config_fields.blank? ? false : true,
+            optional: config_fields.present?,
             sticky: true,
             toggle_hint: 'Select',
             toggle_field: {
@@ -1577,7 +1577,7 @@
               extends_schema: true,
               toggle_hint: 'ID',
               hint: 'Indicate the specific automation IDs you want to trigger upon completion of your request.
-                For chained ZAB Automations, seperate each ID by a comma (Eg. "1,2,3,4").'
+                For chained ZAB Automations, separate each ID by a comma (Eg. "1,2,3,4").'
             }
           }
         ]
@@ -1635,7 +1635,7 @@
         ]
 
         sublist_fields = sublists.map do |sublist|
-          hint = sublist['recordType'] ? "<b>Related Record Type ID: </b>#{sublist['recordType']}" : null
+          hint = sublist['recordType'] ? "<b>Related Record Type ID: </b>#{sublist['recordType']}" : nil
 
           next unless sublist['fields'].length
 
@@ -1951,7 +1951,7 @@
         automations: automations.split(',')
       }.reject do |_, v|
         ## Remove empty params
-        v.blank? || v.nil?
+        v.blank?
       end
 
       ## Parse for Bulk API
@@ -1988,8 +1988,8 @@
 
       if !error_check['success'] || error_check['error']
         error_details = body['error'] || body
-        error_details['name'].to_s || 'API_ERROR'
-        error_details['message'].to_s || 'There was an error with your request.
+        error_details['name']&.to_s || 'API_ERROR'
+        error_details['message']&.to_s || 'There was an error with your request.
           Please check the logs in Workato and NetSuite.'
 
         error_elements = [
@@ -2040,7 +2040,7 @@
       filters = dynamic_filters['filters'] || []
 
       ## Normal Parameters
-      options.map do |key, value|
+      options.each do |key, value|
         parameters[key] = value unless value.is_a?(Hash)
       end
 

@@ -27,7 +27,7 @@ RSpec.describe 'object_definition/get_export_filters', :vcr do
       expect(record_type_field['control_type']).to eq(:select)
       expect(record_type_field['pick_list']).to eq('record_types')
       expect(record_type_field['toggle_hint']).to eq('Select')
-      expect(record_type_field['toggle_field']).to be_kind_of(Object)
+      expect(record_type_field['toggle_field']).to be_kind_of(::Hash)
     end
 
     it 'contains Record Type toggle field' do

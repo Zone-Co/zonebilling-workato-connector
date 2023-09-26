@@ -14,7 +14,7 @@ RSpec.describe 'methods/get', :vcr do
     }) }
 
     it 'response is successful' do
-      expect(result).to be_kind_of(Object)
+      expect(result).to be_kind_of(::Hash)
       expect(result['success']).to be_truthy
     end
 
@@ -28,7 +28,7 @@ RSpec.describe 'methods/get', :vcr do
     it 'response results' do
       expect(result['results']).to be_kind_of(Array)
       result['results'].each do |result_object|
-        expect(result_object).to be_kind_of(Object)
+        expect(result_object).to be_kind_of(::Hash)
       end
     end
   end

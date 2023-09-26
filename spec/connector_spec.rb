@@ -12,10 +12,10 @@ RSpec.describe 'connector', :vcr do
     context 'given valid credentials' do
       # Assign the output variable as the output of your test lambda
       # Default call of ZAB API Export: zab_api_export, page=1, page_size=5
-      subject(:output) {connector.test(settings)}
+      subject(:output) { connector.test(settings) }
 
       it 'response object is returned' do
-        expect(output).to be_kind_of(::Object)
+        expect(output).to be_kind_of(::Hash)
       end
 
       it 'response contains truthy success property' do

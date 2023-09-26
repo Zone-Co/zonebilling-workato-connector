@@ -28,7 +28,7 @@ RSpec.describe 'object_definition/export_filter', :vcr do
       expect(field_id_field['pick_list']).to eq('record_fields')
       expect(field_id_field['sticky']).to be_truthy
       expect(field_id_field['optional']).to be_falsey
-      expect(field_id_field['toggle_field']).to be_kind_of(Object)
+      expect(field_id_field['toggle_field']).to be_kind_of(::Hash)
     end
 
     it 'contains Operator field' do

@@ -13,7 +13,7 @@ RSpec.describe 'methods/get_post_sample_response', :vcr do
     subject(:result) { connector.methods.get_post_sample_response(connector.connection, {}) }
 
     it 'returns response body' do
-      expect(result).to be_kind_of(Object)
+      expect(result).to be_kind_of(::Hash)
     end
 
     it 'returns response internalid' do
@@ -33,7 +33,7 @@ RSpec.describe 'methods/get_post_sample_response', :vcr do
     }) }
 
     it 'returns body' do
-      expect(result).to be_kind_of(Object)
+      expect(result).to be_kind_of(::Hash)
     end
 
     it 'returns internalid' do

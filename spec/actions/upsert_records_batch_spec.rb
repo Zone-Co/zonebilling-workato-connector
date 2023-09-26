@@ -12,7 +12,7 @@ RSpec.describe 'actions/update_records_batch', :vcr do
   }
   context 'execute' do
 
-    subject(:output) {output = action.execute(settings, {
+    subject(:output) { action.execute(settings, {
       "record_type": input['record_type'],
       "options": input['options'],
       "external_key": "internalid",
@@ -24,7 +24,7 @@ RSpec.describe 'actions/update_records_batch', :vcr do
 
     # Request Response
     it 'response is valid' do
-      expect(output).to be_kind_of(Object)
+      expect(output).to be_kind_of(::Hash)
       expect(output['success']).to be_truthy
       expect(output['reference_id']).to be_kind_of(Integer)
     end

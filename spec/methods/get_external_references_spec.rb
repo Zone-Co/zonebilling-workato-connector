@@ -26,14 +26,14 @@ RSpec.describe 'methods/get_external_references', :vcr do
     subject(:result) { connector.methods.get_external_references(input) }
 
     it 'option 1 is formatted correctly' do
-      expect(result[0]).to be_kind_of(Object)
+      expect(result[0]).to be_kind_of(::Hash)
       expect(result[0]['fieldId']).to eq('custrecordzab_s_customer')
       expect(result[0]['relatedRecordType']).to eq('customer')
       expect(result[0]['relatedFieldId']).to eq('externalid')
     end
 
     it 'option 2 is formatted correctly' do
-      expect(result[1]).to be_kind_of(Object)
+      expect(result[1]).to be_kind_of(::Hash)
       expect(result[1]['fieldId']).to eq('custrecordzab_s_master_contract')
       expect(result[1]['relatedRecordType']).to eq('customrecordzab_mastercontract')
       expect(result[1]['relatedFieldId']).to eq('externalid')

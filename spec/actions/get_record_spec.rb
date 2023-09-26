@@ -20,7 +20,7 @@ RSpec.describe 'actions/get_record', :vcr do
     context 'Given Valid Input' do
 
       it 'response is successful' do
-        expect(output).to be_kind_of(Object)
+        expect(output).to be_kind_of(::Hash)
       end
 
       it 'response data is valid' do
@@ -34,7 +34,7 @@ RSpec.describe 'actions/get_record', :vcr do
     subject(:sample_output) { action.sample_output(settings, input) }
 
     it 'response is successful' do
-      expect(output).to be_kind_of(Object)
+      expect(output).to be_kind_of(::Hash)
     end
   end
 

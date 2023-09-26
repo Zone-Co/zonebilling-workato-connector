@@ -16,7 +16,7 @@ RSpec.describe 'methods/validate_response', :vcr do
     subject(:result_success) { connector.methods.validate_response(200, result_body, {}) }
 
     it 'returns response body' do
-      expect(result_success).to be_kind_of(Object)
+      expect(result_success).to be_kind_of(::Hash)
     end
 
     it 'returns response status' do
