@@ -9,7 +9,7 @@ RSpec.describe 'pick_lists/file_compression_type', :vcr do
 
   subject(:pick_list) { connector.pick_lists.file_compression_type(settings) }
 
-  it 'returns the list of operators' do
+  it 'returns the list of compression types' do
     expect(pick_list).to eq([
       ['CPIO', 'cpio'],
       ['TAR', 'tar'],

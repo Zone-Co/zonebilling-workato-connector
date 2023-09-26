@@ -9,7 +9,7 @@ RSpec.describe 'pick_lists/filter_types', :vcr do
 
   subject(:pick_list) { connector.pick_lists.filter_types(settings) }
 
-  it 'returns the list of operators' do
+  it 'returns the list of filter types' do
     expect(pick_list).to eq([
       ['Default', 'filter'],
       ['Date', 'filterdate'],
