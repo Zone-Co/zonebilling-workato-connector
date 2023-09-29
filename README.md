@@ -166,9 +166,5 @@ EDITOR="nano" workato edit tape_library/
 The Workato connector can be deployed to the Workato platform using the [Workato CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli). 
 Once it is installed the following command will execute the upload. Note: You will need to have access to the configured Workato API key to execute this command.
 ```bash
-workato push --title="ZoneBilling for NetSuite" 
-  --description=./Connector_details.md 
-  --logo=./logo.png 
-  --connector=./connector.rb 
-  --api-token= ##Insert API Token Here##
+workato push --title="ZoneBilling for NetSuite" --description=./Connector_details.md --logo=./logo.png --connector=./connector.rb --api-token= ##Insert API Token Here##
 ```

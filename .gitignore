@@ -12,7 +12,7 @@
 ## Master Keys for Encryption of files
 master.key
 /master.key
-
+workato_api_token.key
 settings.yaml
 
 # rspec failure tracking

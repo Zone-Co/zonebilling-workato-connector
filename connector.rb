@@ -146,7 +146,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           object_definitions['post_input_options'],
           object_definitions['record_fields']
@@ -157,7 +157,7 @@
         call(:post, connection, input, 'create')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
@@ -232,7 +232,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           object_definitions['post_input_options'],
           object_definitions['record_fields']
@@ -243,7 +243,7 @@
         call(:post, connection, input, 'update')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
@@ -314,7 +314,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           object_definitions['post_input_options'],
           object_definitions['record_fields']
@@ -325,7 +325,7 @@
         call(:post, connection, input, 'upsert')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
@@ -373,7 +373,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -401,7 +401,7 @@
         call(:post, connection, input, 'create')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_batch_response']
       end,
 
@@ -476,7 +476,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -504,7 +504,7 @@
         call(:post, connection, input, 'update')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_batch_response']
       end,
 
@@ -579,7 +579,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -607,7 +607,7 @@
         call(:post, connection, input, 'upsert')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_batch_response']
       end,
 
@@ -636,7 +636,7 @@
 
       display_priority: 5,
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         object_definitions['automations_option']
       end,
 
@@ -646,7 +646,7 @@
              }, nil)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
@@ -704,7 +704,7 @@
         get('', params) || {}
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['batch_response']
       end,
 
@@ -754,7 +754,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -780,7 +780,7 @@
         call(:get_export_id, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['get_response']
       end,
 
@@ -852,7 +852,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -880,7 +880,7 @@
         results.first
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         response = object_definitions['get_response'] || {}
         index = response.find_index do |field|
           field['name'] == 'results'
@@ -942,7 +942,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -957,7 +957,7 @@
         call(:get_record_file, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['get_file_response']
       end,
 
@@ -1016,7 +1016,7 @@
         call(:get_record_file_attachments, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         [
           {
             name: 'files',
@@ -1073,7 +1073,7 @@
         call(:get_record_file, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['get_file_response']
       end,
 
@@ -1281,27 +1281,8 @@
 
   object_definitions: {
 
-    field_value: {
-
-      fields: lambda do |_connection, _config_fields, _object_definitions|
-        [
-          {
-            name: 'value',
-            label: 'Value',
-            type: 'string'
-          },
-          {
-            name: 'text',
-            label: 'Text',
-            type: 'string',
-            optional: true
-          }
-        ]
-      end
-    },
-
     export_id_option: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'export_id',
@@ -1351,7 +1332,7 @@
     },
 
     external_reference: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'field_id',
@@ -1451,7 +1432,7 @@
     },
 
     export_filter: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'field_id',
@@ -1703,7 +1684,7 @@
     },
 
     post_batch_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'reference_id',
@@ -1715,7 +1696,7 @@
     },
 
     get_file_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'name',
@@ -1737,7 +1718,7 @@
     },
 
     get_options_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'include_empty_properties',
@@ -1753,6 +1734,7 @@
             name: 'text_always',
             label: 'Include Text Always',
             hint: 'If true, a text property will be returned for each attribute, even if it is the same as the value',
+            default: true,
             type: 'boolean',
             control_type: 'checkbox',
             extends_schema: true,
@@ -1775,7 +1757,7 @@
     },
 
     get_options_request: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'return_all',
@@ -1886,7 +1868,7 @@
     },
 
     batch_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'status',
