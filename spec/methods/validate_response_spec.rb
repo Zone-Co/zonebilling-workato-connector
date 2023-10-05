@@ -13,7 +13,7 @@ RSpec.describe 'methods/validate_response', :vcr do
       'success' => true,
       'internalid' => 123
     }}
-    subject(:result_success) { connector.methods.validate_response(200, result_body, {}) }
+    subject(:result_success) { connector.methods.validate_response(result_body) }
 
     it 'returns response body' do
       expect(result_success).to be_kind_of(::Hash)
@@ -36,7 +36,7 @@ RSpec.describe 'methods/validate_response', :vcr do
         'internalid' => 456
       },
     ]}
-    subject(:result_success_with_array) { connector.methods.validate_response(200, result_body_array, {}) }
+    subject(:result_success_with_array) { connector.methods.validate_response(result_body_array) }
 
     it 'returns response body' do
       expect(result_success_with_array).to be_kind_of(Array)
@@ -57,7 +57,7 @@ RSpec.describe 'methods/validate_response', :vcr do
       error_caught = false
 
       begin
-        subject(:result_failure) { connector.methods.validate_response(200, result_body_with_failure, {}) }
+        subject(:result_failure) { connector.methods.validate_response(result_body_with_failure) }
       rescue
         error_caught = true
       ensure

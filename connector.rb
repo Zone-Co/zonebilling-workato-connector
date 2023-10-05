@@ -407,9 +407,9 @@
 
       summarize_input: ['records'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
-          reference_id: 12_345
+          reference_id: 12345
         }
       end
     },
@@ -510,9 +510,9 @@
 
       summarize_input: ['records'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
-          reference_id: 12_345
+          reference_id: 12345
         }
       end
     },
@@ -613,7 +613,7 @@
 
       summarize_input: ['records'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           reference_id: 12_345
         }
@@ -652,7 +652,7 @@
 
       summarize_output: ['results'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           reference_id: 1234
         }
@@ -961,7 +961,7 @@
         object_definitions['get_file_response']
       end,
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           name: 'INV000001.PDF',
           description: '... File Description ... ',
@@ -1028,7 +1028,7 @@
         ]
       end,
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           files: [
             {
@@ -1046,7 +1046,7 @@
 
       subtitle: 'Get a file from the NetSuite File Cabinet.',
 
-      description: lambda do |_input, _picklist_label|
+      description: lambda do
         "Get a <span class='provider'>File</span> from the File Cabinet in " \
           "<span class='provider'>NetSuite</span>"
       end,
@@ -1077,7 +1077,7 @@
         object_definitions['get_file_response']
       end,
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           name: 'INV000001.PDF',
           description: '... File Description ... ',
@@ -1497,7 +1497,7 @@
     },
 
     file_export_options: {
-      fields: lambda do |_connection, config_fields, _object_definitions|
+      fields: lambda do |_connection, config_fields|
         [
           {
             name: 'file_export_type',
@@ -1535,7 +1535,7 @@
     },
 
     automations_option: {
-      fields: lambda do |_connection, config_fields, _object_definitions|
+      fields: lambda do |_connection, config_fields|
         [
           {
             name: 'automations',
@@ -1583,7 +1583,7 @@
     },
 
     record_fields: {
-      fields: lambda do |connection, config_fields, _object_definitions|
+      fields: lambda do |connection, config_fields|
         record_type = config_fields['record_type'] || ''
         external_key = config_fields['external_key'] || ''
         options = config_fields['options'] || {}
@@ -1797,7 +1797,7 @@
     },
 
     get_response: {
-      fields: lambda do |connection, config_fields, _object_definitions|
+      fields: lambda do |connection, config_fields|
         options = config_fields['options'] || {}
 
         fields = [
@@ -1834,7 +1834,8 @@
               'return_all' => false,
               'page_size' => 50,
               'label_as_key' => options['label_as_key'] || false,
-              'include_empty_properties' => options['include_empty_properties'] || false,
+              ## This will return all properties in the first
+              'include_empty_properties' => true,
               'text_always' => options['text_always'] || false
             }
           }
@@ -1950,7 +1951,7 @@
       post('', payload)
         .after_response do |code, body, headers|
           if !body['success'] || body['error']
-            call(:validate_response, code, body, headers)
+            call(:validate_response, body)
           else
             body
           end
@@ -1960,12 +1961,12 @@
     get: lambda do |_connection, params|
       get('', params)
         .after_response do |code, body, headers|
-          call(:validate_response, code, body, headers)
+          call(:validate_response, body)
         end
     end,
 
     # Standardize how we parse errors for our requests
-    validate_response: lambda do |_code, body, _headers|
+    validate_response: lambda do |body|
       error_check = body.is_a?(Array) ? body[0] : body
 
       if !error_check['success'] || error_check['error']
