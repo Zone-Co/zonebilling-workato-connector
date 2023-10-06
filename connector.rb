@@ -52,6 +52,8 @@
 
     authorization: {
 
+    	type: 'custom_auth',
+
       acquire: lambda do |connection|
         ### NetSuite Sandbox accounts have ID's formatted as 1234567_SB1, but the URL is formatted with a hyphen
         ### (eg. 1234567-sb1)
