@@ -4,7 +4,38 @@ The ZoneBilling Connector for Workato is a Ruby-based connector that allows Work
 
 Instructions for settings up the connector within the Workato Platform can be found [in the documentation file](DOCUMENTATION.md).
 
-### Contact details
+## About
+
+### Name
+ZoneBilling for NetSuite
+
+### Categories
+1. Finance And Accounting
+2. Sales And Marketing
+
+### Search Keywords
+1. NetSuite
+2. ZoneBilling
+3. Billing
+
+### Details
+The ZoneBilling for NetSuite Workato Connector allows you to interact with NetSuite with the full power of the [ZoneBilling API](https://zab-docs.zoneandco.com/). Requires version 2023.07.20.1 or later of the [ZoneBilling NetSuite SuiteApp](https://www.suiteapp.com/ZoneBilling). For more information, [please visit our help documentation](https://help.zoneandco.com/hc/en-us/sections/17022714320155-Workato).
+
+### What can you do with this connector
+1. Create, Update, and Upsert records into NetSuite, including Standard, ZoneBilling, or any other custom record type within your environment.
+2. Leverage our Bulk API to insert large volumes of records into your NetSuite account
+3. Fetch records from preconfigured out-of-the-box & custom saved searches within your NetSuite account
+4. Retrieve Documents from your NetSuite environment, such as Invoice PDFs.
+5. Execute ZoneBilling Automated Processes such as Transaction Creation & Subscription Rating
+6. Leverage advanced API features such as [External Keys](https://zab-docs.zoneandco.com/#bda27caf-e45e-4bc6-bc10-93b11628b755) and [External References](https://zab-docs.zoneandco.com/#eb92f1bb-0c78-48cc-be49-16ab8f4bfdac),
+
+### Support
+This connector was built and is supported by Zone & Company Software Consulting LLC. Send bug reports and enhancement requests to [Zone & Co. Support](https://www.zoneandco.com/support-hub).
+
+### Contact Details
+
+#### Support Contact
+- Email [support@zoneandco.com](mailto:support@zoneandco.com)
 
 #### Partnerships Contact
 - Full Name: Keith Goldschmidt
@@ -17,16 +48,6 @@ Instructions for settings up the connector within the Workato Platform can be fo
 #### Product Contact
 - Full Name: Amy Nelson
 - Email: [amynelson@zoneandco.com](mailto:amynelson@zoneandco.com)
-
-### Overview ###
-1. Pre-requisites
-2. Connection Settings
-3. Running connector code locally
-4. Code Style & Formatting
-5. Writing unit tests
-6. Recording VSR Tapes
-7. Git Management
-8. Deployments
 
 ## Pre-requisites
 1. Installing and understanding of the [Workato Connector SDK](https://docs.workato.com/developing-connectors/sdk.html) and [SDK CLI](https://docs.workato.com/developing-connectors/sdk/cli.html#sdk-cli)
