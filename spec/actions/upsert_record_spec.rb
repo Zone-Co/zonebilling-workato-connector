@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.describe 'actions/create_record', :vcr do
+RSpec.describe 'actions/upsert_record', :vcr do
 
   let(:connector) { Workato::Connector::Sdk::Connector.from_file('connector.rb', settings) }
   let(:settings) { Workato::Connector::Sdk::Settings.from_encrypted_file('settings.yaml.enc', 'master.key') }
 
-  let(:action) { connector.actions.create_record }
+  let(:action) { connector.actions.upsert_record }
 
   subject(:input) {
     input = JSON.parse(File.read('fixtures/methods/post/input/upsert.json'))
@@ -18,7 +18,7 @@ RSpec.describe 'actions/create_record', :vcr do
     it 'is an object with success' do
 
       ## General Response
-      expect(output).to be_kind_of(::Object)
+      expect(output).to be_kind_of(::Hash)
       expect(output['success']).to be_truthy
 
       expect(output['internalid']).to be >= 1 ## Any post operation for a record will contain an internalid property in the response
@@ -29,7 +29,7 @@ RSpec.describe 'actions/create_record', :vcr do
 
       ## The result object should contain the property for internalid and the value match the response id
       result = output['results'][0]
-      expect(result).to be_kind_of(::Object)
+      expect(result).to be_kind_of(::Hash)
       expect(result['internalid']['value']).to eq(output['internalid'].to_s)
     end
   end
@@ -43,7 +43,7 @@ RSpec.describe 'actions/create_record', :vcr do
     end
 
     it 'contains results' do
-      expect(sample_output['results']).to be_kind_of(Object)
+      expect(sample_output['results']).to be_kind_of(::Array)
       expect(sample_output).to have_key('results')
     end
   end

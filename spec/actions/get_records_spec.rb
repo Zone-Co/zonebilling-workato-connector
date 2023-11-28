@@ -17,7 +17,7 @@ RSpec.describe 'actions/get_records', :vcr do
     context 'Given Valid Input' do
 
       it 'response is successful' do
-        expect(output).to be_kind_of(Object)
+        expect(output).to be_kind_of(::Hash)
       end
 
       it 'response contains page properties' do
@@ -33,7 +33,7 @@ RSpec.describe 'actions/get_records', :vcr do
     subject(:sample_output) { action.sample_output(settings, input) }
 
     it 'is object' do
-      expect(sample_output).to be_kind_of(Object)
+      expect(sample_output).to be_kind_of(::Hash)
     end
 
     it 'response contains page properties' do

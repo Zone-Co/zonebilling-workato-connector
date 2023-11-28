@@ -9,7 +9,7 @@ RSpec.describe 'pick_lists/file_export_type', :vcr do
 
   subject(:pick_list) { connector.pick_lists.file_export_type(settings) }
 
-  it 'returns the list of operators' do
+  it 'returns the list of export types' do
     expect(pick_list).to eq([
       ['PDF', 'recordpdf'],
       ['HTML', 'recordhtml']

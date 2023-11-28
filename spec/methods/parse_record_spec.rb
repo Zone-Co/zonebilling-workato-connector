@@ -12,12 +12,12 @@ RSpec.describe 'methods/parse_record', :vcr do
 
   it 'contains a record property' do
     expect(result).to have_key('body')
-    expect(result['record']).to be_kind_of(Object)
+    expect(result['body']).to be_kind_of(::Hash)
   end
 
   it 'contains a sublist property' do
     expect(result).to have_key('sublists')
-    expect(result['sublists']).to be_kind_of(Object)
+    expect(result['sublists']).to be_kind_of(::Hash)
   end
 
   it 'contains internalid within record property' do

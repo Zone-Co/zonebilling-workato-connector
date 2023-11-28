@@ -17,7 +17,7 @@ RSpec.describe 'methods/get_record_file', :vcr do
     }) }
 
     it 'should return a file formatted object' do
-      expect(result_only['file']).to be_kind_of(Object)
+      expect(result_only['file']).to be_kind_of(::Hash)
       expect(result_only['file']).to have_key('name')
       expect(result_only['file']).to have_key('description')
       expect(result_only['file']).to have_key('contents')
@@ -36,7 +36,7 @@ RSpec.describe 'methods/get_record_file', :vcr do
     }) }
 
     it 'should return a file formatted object' do
-      expect(result_with_type['file']).to be_kind_of(Object)
+      expect(result_with_type['file']).to be_kind_of(::Hash)
       expect(result_with_type['file']).to have_key('name')
       expect(result_with_type['file']).to have_key('description')
       expect(result_with_type['file']).to have_key('contents')
@@ -58,7 +58,7 @@ RSpec.describe 'methods/get_record_file', :vcr do
     }) }
 
     it 'should return a file formatted object' do
-      expect(result_with_type['file']).to be_kind_of(Object)
+      expect(result_with_type['file']).to be_kind_of(::Hash)
       expect(result_with_type['file']).to have_key('name')
       expect(result_with_type['file']).to have_key('description')
       expect(result_with_type['file']).to have_key('contents')

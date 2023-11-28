@@ -18,7 +18,7 @@ RSpec.describe 'methods/get_file_result', :vcr do
   subject(:result) { connector.methods.get_file_result(results) }
 
   it 'should return a file formated object' do
-    expect(result).to be_kind_of(Object)
+    expect(result).to be_kind_of(::Hash)
   end
 
   it 'should return a file with name' do

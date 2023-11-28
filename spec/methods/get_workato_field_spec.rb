@@ -42,7 +42,7 @@ RSpec.describe 'methods/get_workato_field', :vcr do
 
     it 'returns a toggle field' do
       expect(result['toggle_hint']).to eq('Value')
-      expect(result['toggle_field']).to be_kind_of(Object)
+      expect(result['toggle_field']).to be_kind_of(::Hash)
       expect(result['toggle_field']['name']).to eq('custrecord_workato_c_parent-text')
       expect(result['toggle_field']['label']).to eq('Parent (in Text)')
       expect(result['toggle_field']['type']).to eq(:string)

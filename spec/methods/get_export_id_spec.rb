@@ -37,7 +37,7 @@ RSpec.describe 'methods/get_export_id', :vcr do
     it 'returns results that are objects' do
 
       result['results'].each do |result_object|
-        expect(result_object).to be_kind_of(Object)
+        expect(result_object).to be_kind_of(::Hash)
       end
     end
   end

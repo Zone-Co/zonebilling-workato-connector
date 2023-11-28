@@ -20,7 +20,7 @@ RSpec.describe 'methods/get_record_file_attachments', :vcr do
 
     it 'returns a list of file attachments with the correct properties' do
       result['files'].each do |file_attachment|
-        expect(file_attachment).to be_kind_of(Object)
+        expect(file_attachment).to be_kind_of(::Hash)
         expect(file_attachment).to have_key('description')
         expect(file_attachment).to have_key('name')
         expect(file_attachment).to have_key('contents')

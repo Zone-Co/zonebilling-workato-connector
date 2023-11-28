@@ -318,7 +318,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           object_definitions['post_input_options'],
           object_definitions['record_fields']
@@ -329,7 +329,7 @@
         call(:post, connection, input, 'create')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
@@ -404,7 +404,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           object_definitions['post_input_options'],
           object_definitions['record_fields']
@@ -415,7 +415,7 @@
         call(:post, connection, input, 'update')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
@@ -486,7 +486,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           object_definitions['post_input_options'],
           object_definitions['record_fields']
@@ -497,7 +497,7 @@
         call(:post, connection, input, 'upsert')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
@@ -545,7 +545,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -573,15 +573,15 @@
         call(:post, connection, input, 'create')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_batch_response']
       end,
 
       summarize_input: ['records'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
-          reference_id: 12_345
+          reference_id: 12345
         }
       end
     },
@@ -648,7 +648,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -676,15 +676,15 @@
         call(:post, connection, input, 'update')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_batch_response']
       end,
 
       summarize_input: ['records'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
-          reference_id: 12_345
+          reference_id: 12345
         }
       end
     },
@@ -751,7 +751,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -779,13 +779,13 @@
         call(:post, connection, input, 'upsert')
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_batch_response']
       end,
 
       summarize_input: ['records'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           reference_id: 12_345
         }
@@ -799,21 +799,16 @@
 
       description: lambda do |input, picklist_label|
         value = input['automations'] || []
-        automations = value.split(',')
-        index = automations.length > 1 ? 2 : automations.length
+        automations = value.split(',') || []
 
-        label_indexes = [
-          'a ZAB Automation',                     # No Automation selected, Default value
-          picklist_label['automations'],          # 1 Automation Selected, show label
-          "#{automations.length} ZAB Automations" # 2 or More Automations, show "multiple"
-        ]
+        label = automations.length > 1 ? "#{automations.length} ZAB Automations" : 'a ZAB Automation'
 
-        "Kick off <span class='provider'>#{label_indexes[index]}</span> in <span class='provider'>NetSuite</span>"
+        "Kick off <span class='provider'>#{label}</span> in <span class='provider'>NetSuite</span>"
       end,
 
       display_priority: 5,
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         object_definitions['automations_option']
       end,
 
@@ -823,13 +818,13 @@
              }, nil)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['post_response']
       end,
 
       summarize_output: ['results'],
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           reference_id: 1234
         }
@@ -881,7 +876,7 @@
         get('', params) || {}
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['batch_response']
       end,
 
@@ -931,7 +926,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -957,7 +952,7 @@
         call(:get_export_id, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['get_response']
       end,
 
@@ -1013,7 +1008,7 @@
         {
           name: 'internal_id',
           label: 'Identifier',
-          hint: 'Specifiy a specific record internal id you would like to retrieve',
+          hint: 'Specify a specific record internal id you would like to retrieve',
           control_type: :integer,
           type: :integer,
           sticky: true,
@@ -1021,7 +1016,7 @@
           toggle_field: {
             name: 'external_id',
             label: 'Identifier',
-            hint: 'Specifiy a specific record external id you would like to retreieve.',
+            hint: 'Specify a specific record external id you would like to retrieve.',
             control_type: :integer,
             type: :integer,
             toggle_hint: 'External ID'
@@ -1029,7 +1024,7 @@
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -1057,7 +1052,7 @@
         results.first
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         response = object_definitions['get_response'] || {}
         index = response.find_index do |field|
           field['name'] == 'results'
@@ -1112,14 +1107,14 @@
         {
           name: 'record_id',
           label: 'Record ID',
-          hint: 'Specifiy the specific record internal ID you would like to retrieve',
+          hint: 'Specify the specific record internal ID you would like to retrieve',
           type: :integer,
           control_type: :integer,
           optional: false
         }
       ],
 
-      input_fields: lambda do |object_definitions, _connection, _config_fields|
+      input_fields: lambda do |object_definitions|
         [
           {
             name: 'options',
@@ -1134,11 +1129,11 @@
         call(:get_record_file, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['get_file_response']
       end,
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           name: 'INV000001.PDF',
           description: '... File Description ... ',
@@ -1182,7 +1177,7 @@
         {
           name: 'record_id',
           label: 'Record ID',
-          hint: 'Specifiy the specific record internal ID you would like to retrieve',
+          hint: 'Specify the specific record internal ID you would like to retrieve',
           type: :integer,
           control_type: :integer,
           optional: false
@@ -1193,7 +1188,7 @@
         call(:get_record_file_attachments, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         [
           {
             name: 'files',
@@ -1205,7 +1200,7 @@
         ]
       end,
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           files: [
             {
@@ -1223,7 +1218,7 @@
 
       subtitle: 'Get a file from the NetSuite File Cabinet.',
 
-      description: lambda do |_input, _picklist_label|
+      description: lambda do
         "Get a <span class='provider'>File</span> from the File Cabinet in " \
           "<span class='provider'>NetSuite</span>"
       end,
@@ -1234,7 +1229,7 @@
         {
           name: 'record_id',
           label: 'File ID',
-          hint: 'Specifiy the specific file ID you would like to retrieve from the File Cabinet',
+          hint: 'Specify the specific file ID you would like to retrieve from the File Cabinet',
           type: :integer,
           control_type: :integer,
           optional: false
@@ -1250,11 +1245,11 @@
         call(:get_record_file, connection, input)
       end,
 
-      output_fields: lambda do |object_definitions, _connection, _config_fields|
+      output_fields: lambda do |object_definitions|
         object_definitions['get_file_response']
       end,
 
-      sample_output: lambda do |_connection, _input|
+      sample_output: lambda do
         {
           name: 'INV000001.PDF',
           description: '... File Description ... ',
@@ -1458,27 +1453,8 @@
 
   object_definitions: {
 
-    field_value: {
-
-      fields: lambda do |_connection, _config_fields, _object_definitions|
-        [
-          {
-            name: 'value',
-            label: 'Value',
-            type: 'string'
-          },
-          {
-            name: 'text',
-            label: 'Text',
-            type: 'string',
-            optional: true
-          }
-        ]
-      end
-    },
-
     export_id_option: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'export_id',
@@ -1528,7 +1504,7 @@
     },
 
     external_reference: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'field_id',
@@ -1628,7 +1604,7 @@
     },
 
     export_filter: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'field_id',
@@ -1693,7 +1669,7 @@
     },
 
     file_export_options: {
-      fields: lambda do |_connection, config_fields, _object_definitions|
+      fields: lambda do |_connection, config_fields|
         [
           {
             name: 'file_export_type',
@@ -1731,7 +1707,7 @@
     },
 
     automations_option: {
-      fields: lambda do |_connection, config_fields, _object_definitions|
+      fields: lambda do |_connection, config_fields|
         [
           {
             name: 'automations',
@@ -1742,7 +1718,7 @@
             delimiter: ',',
             pick_list: 'automations',
             extends_schema: true,
-            optional: config_fields.blank? ? false : true,
+            optional: config_fields.present?,
             sticky: true,
             toggle_hint: 'Select',
             toggle_field: {
@@ -1754,7 +1730,7 @@
               extends_schema: true,
               toggle_hint: 'ID',
               hint: 'Indicate the specific automation IDs you want to trigger upon completion of your request.
-                For chained ZAB Automations, seperate each ID by a comma (Eg. "1,2,3,4").'
+                For chained ZAB Automations, separate each ID by a comma (Eg. "1,2,3,4").'
             }
           }
         ]
@@ -1779,7 +1755,7 @@
     },
 
     record_fields: {
-      fields: lambda do |connection, config_fields, _object_definitions|
+      fields: lambda do |connection, config_fields|
         record_type = config_fields['record_type'] || ''
         external_key = config_fields['external_key'] || ''
         options = config_fields['options'] || {}
@@ -1812,7 +1788,7 @@
         ]
 
         sublist_fields = sublists.map do |sublist|
-          hint = sublist['recordType'] ? "<b>Related Record Type ID: </b>#{sublist['recordType']}" : null
+          hint = sublist['recordType'] ? "<b>Related Record Type ID: </b>#{sublist['recordType']}" : nil
 
           next unless sublist['fields'].length
 
@@ -1880,7 +1856,7 @@
     },
 
     post_batch_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'reference_id',
@@ -1892,7 +1868,7 @@
     },
 
     get_file_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'name',
@@ -1914,7 +1890,7 @@
     },
 
     get_options_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'include_empty_properties',
@@ -1930,6 +1906,7 @@
             name: 'text_always',
             label: 'Include Text Always',
             hint: 'If true, a text property will be returned for each attribute, even if it is the same as the value',
+            default: true,
             type: 'boolean',
             control_type: 'checkbox',
             extends_schema: true,
@@ -1952,7 +1929,7 @@
     },
 
     get_options_request: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'return_all',
@@ -1992,7 +1969,7 @@
     },
 
     get_response: {
-      fields: lambda do |connection, config_fields, _object_definitions|
+      fields: lambda do |connection, config_fields|
         options = config_fields['options'] || {}
 
         fields = [
@@ -2029,7 +2006,8 @@
               'return_all' => false,
               'page_size' => 50,
               'label_as_key' => options['label_as_key'] || false,
-              'include_empty_properties' => options['include_empty_properties'] || false,
+              ## This will return all properties in the first
+              'include_empty_properties' => true,
               'text_always' => options['text_always'] || false
             }
           }
@@ -2063,7 +2041,7 @@
     },
 
     batch_response: {
-      fields: lambda do |_connection, _config_fields, _object_definitions|
+      fields: lambda do
         [
           {
             name: 'status',
@@ -2128,7 +2106,7 @@
         automations: automations.split(',')
       }.reject do |_, v|
         ## Remove empty params
-        v.blank? || v.nil?
+        v.blank?
       end
 
       ## Parse for Bulk API
@@ -2145,7 +2123,7 @@
       post('', payload)
         .after_response do |code, body, headers|
           if !body['success'] || body['error']
-            call(:validate_response, code, body, headers)
+            call(:validate_response, body)
           else
             body
           end
@@ -2155,18 +2133,18 @@
     get: lambda do |_connection, params|
       get('', params)
         .after_response do |code, body, headers|
-          call(:validate_response, code, body, headers)
+          call(:validate_response, body)
         end
     end,
 
     # Standardize how we parse errors for our requests
-    validate_response: lambda do |_code, body, _headers|
+    validate_response: lambda do |body|
       error_check = body.is_a?(Array) ? body[0] : body
 
       if !error_check['success'] || error_check['error']
         error_details = body['error'] || body
-        error_details['name'].to_s || 'API_ERROR'
-        error_details['message'].to_s || 'There was an error with your request.
+        error_details['name']&.to_s || 'API_ERROR'
+        error_details['message']&.to_s || 'There was an error with your request.
           Please check the logs in Workato and NetSuite.'
 
         error_elements = [
@@ -2217,7 +2195,7 @@
       filters = dynamic_filters['filters'] || []
 
       ## Normal Parameters
-      options.map do |key, value|
+      options.each do |key, value|
         parameters[key] = value unless value.is_a?(Hash)
       end
 

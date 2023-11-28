@@ -15,7 +15,7 @@ RSpec.describe 'methods/post', :vcr do
     it "create" do
 
       ## Validate Data Type
-      expect(create_output).to be_kind_of(::Object)
+      expect(create_output).to be_kind_of(::Hash)
       ## By default, the ZAB API always returns a `success` param in the response
       expect(create_output[:success]).to be_truthy
       ## Any post operation for a record will contain an internalid property in the response
@@ -30,7 +30,7 @@ RSpec.describe 'methods/post', :vcr do
       ## Validate Export ID Response
       result = create_output[:results][0]
       ## Results are always a search result object
-      expect(result).to be_kind_of(::Object)
+      expect(result).to be_kind_of(::Hash)
       ## The result object should contain the property for internalid and the value match the response id
       expect(result[:internalid][:value]).to eq(create_output[:internalid].to_s)
 
@@ -42,7 +42,7 @@ RSpec.describe 'methods/post', :vcr do
     it "update" do
 
       ## Validate Data Type
-      expect(update_output).to be_kind_of(::Object)
+      expect(update_output).to be_kind_of(::Hash)
       ## By default, the ZAB API always returns a `success` param in the response
       expect(update_output[:success]).to be_truthy
       ## Any post operation for a record will contain an internalid property in the response
@@ -57,7 +57,7 @@ RSpec.describe 'methods/post', :vcr do
       ## Validate Export ID Response
       result = update_output[:results][0]
       ## Results are always a search result object
-      expect(result).to be_kind_of(::Object)
+      expect(result).to be_kind_of(::Hash)
       ## The result object should contain the property for internalid and the value match the response id
       expect(result[:internalid][:value]).to eq(update_output[:internalid].to_s)
 
@@ -69,7 +69,7 @@ RSpec.describe 'methods/post', :vcr do
     it "upsert" do
 
       ## Validate Data Type
-      expect(update_output).to be_kind_of(::Object)
+      expect(update_output).to be_kind_of(::Hash)
       ## By default, the ZAB API always returns a `success` param in the response
       expect(update_output[:success]).to be_truthy
       ## Any post operation for a record will contain an internalid property in the response
@@ -84,7 +84,7 @@ RSpec.describe 'methods/post', :vcr do
       ## Validate Export ID Response
       result = update_output[:results][0]
       ## Results are always a search result object
-      expect(result).to be_kind_of(::Object)
+      expect(result).to be_kind_of(::Hash)
       ## The result object should contain the property for internalid and the value match the response id
       expect(result[:internalid][:value]).to eq(update_output[:internalid].to_s)
 
@@ -100,7 +100,7 @@ RSpec.describe 'methods/post', :vcr do
     it "automations" do
 
       ## Validate Data Type
-      expect(automations_output).to be_kind_of(::Object)
+      expect(automations_output).to be_kind_of(::Hash)
       ## By default, the ZAB API always returns a `success` param in the response
       expect(automations_output['success']).to be_truthy
       # ZAB Automation Properties

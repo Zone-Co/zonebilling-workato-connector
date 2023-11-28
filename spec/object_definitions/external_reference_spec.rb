@@ -27,8 +27,8 @@ RSpec.describe 'object_definition/external_reference', :vcr do
       expect(field_id_field['optional']).to be_falsey
       expect(field_id_field['sticky']).to be_truthy
       expect(field_id_field['pick_list']).to eq('record_fields')
-      expect(field_id_field['pick_list_params']).to be_kind_of(Object)
-      expect(field_id_field['toggle_field']).to be_kind_of(Object)
+      expect(field_id_field['pick_list_params']).to be_kind_of(::Hash)
+      expect(field_id_field['toggle_field']).to be_kind_of(::Hash)
       expect(field_id_field['toggle_hint']).to eq('Select')
     end
 
@@ -39,7 +39,7 @@ RSpec.describe 'object_definition/external_reference', :vcr do
       expect(related_field_id_field['optional']).to be_falsey
       expect(related_field_id_field['sticky']).to be_truthy
       expect(related_field_id_field['pick_list']).to eq('record_field_tree')
-      expect(related_field_id_field['toggle_field']).to be_kind_of(Object)
+      expect(related_field_id_field['toggle_field']).to be_kind_of(::Hash)
       expect(related_field_id_field['toggle_hint']).to eq('Select')
     end
 

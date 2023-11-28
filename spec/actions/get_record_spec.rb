@@ -2,8 +2,6 @@
 
 RSpec.describe 'actions/get_record', :vcr do
 
-  subject(:output) { connector.actions.get_record(input) }
-
   let(:connector) { Workato::Connector::Sdk::Connector.from_file('connector.rb', settings) }
   let(:settings) { Workato::Connector::Sdk::Settings.from_encrypted_file('settings.yaml.enc', 'master.key') }
   let(:input) { {
@@ -20,7 +18,7 @@ RSpec.describe 'actions/get_record', :vcr do
     context 'Given Valid Input' do
 
       it 'response is successful' do
-        expect(output).to be_kind_of(Object)
+        expect(output).to be_kind_of(::Hash)
       end
 
       it 'response data is valid' do
@@ -34,7 +32,7 @@ RSpec.describe 'actions/get_record', :vcr do
     subject(:sample_output) { action.sample_output(settings, input) }
 
     it 'response is successful' do
-      expect(output).to be_kind_of(Object)
+      expect(sample_output).to be_kind_of(::Hash)
     end
   end
 

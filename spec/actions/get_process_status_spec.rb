@@ -16,9 +16,9 @@ RSpec.describe 'actions/get_process_status', :vcr do
     subject(:output) { action.execute(settings, input) }
 
     it ('returns a response') do
-      expect(output).to be_kind_of(Object)
-      expect(output['status']).to be_kind_of(Object)
-      expect(output['response']).to be_kind_of(Object)
+      expect(output).to be_kind_of(::Hash)
+      expect(output['status']).to be_kind_of(::Hash)
+      expect(output['response']).to be_kind_of(::Hash)
       expect(output['response']['processed_count']).to be_kind_of(Integer)
       expect(output['response']['error_count']).to be_kind_of(Integer)
     end
@@ -29,13 +29,13 @@ RSpec.describe 'actions/get_process_status', :vcr do
     subject(:sample_output) { action.sample_output(settings, input) }
 
     it 'contains status field' do
-      expect(sample_output['status']).to be_kind_of(Object)
+      expect(sample_output['status']).to be_kind_of(::Hash)
       expect(sample_output['status']['id']).to be_kind_of(String)
       expect(sample_output['status']['text']).to be_kind_of(String)
     end
 
     it 'contains response field' do
-      expect(sample_output['response']).to be_kind_of(Object)
+      expect(sample_output['response']).to be_kind_of(::Hash)
       expect(sample_output['response']['processed_count']).to be_kind_of(Integer)
       expect(sample_output['response']['error_count']).to be_kind_of(Integer)
       expect(sample_output['response']['results']).to be_kind_of(Array)

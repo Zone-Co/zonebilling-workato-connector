@@ -21,7 +21,7 @@ RSpec.describe 'actions/get_record_file_attachments', :vcr do
 
     it 'returns a list of file attachments with the correct properties' do
       output['files'].each do |file_attachment|
-        expect(file_attachment).to be_kind_of(Object)
+        expect(file_attachment).to be_kind_of(::Hash)
         expect(file_attachment).to have_key('description')
         expect(file_attachment).to have_key('name')
         expect(file_attachment).to have_key('contents')
@@ -34,7 +34,7 @@ RSpec.describe 'actions/get_record_file_attachments', :vcr do
 
     it 'contains a list of file attachments' do
       expect(sample_output['files']).to be_kind_of(Array)
-      expect(sample_output['files'][0]).to be_kind_of(Object)
+      expect(sample_output['files'][0]).to be_kind_of(::Hash)
     end
   end
 
@@ -48,7 +48,7 @@ RSpec.describe 'actions/get_record_file_attachments', :vcr do
 
     it 'contains a file field' do
       expect(files_field['name']).to eq('files')
-      expect(files_field).to be_kind_of(Object)
+      expect(files_field).to be_kind_of(::Hash)
     end
   end
 end
