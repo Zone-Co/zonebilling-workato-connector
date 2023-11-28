@@ -1,0 +1,11 @@
+{
+  "record_type": "customer",
+  "options": {
+    "automations": "1,2"
+  },
+  "record_fields": {
+    "internalid": 7086,
+    "companyname": "Workato Test (Updated) 2",
+    "email": "upsert@workato.com"
+  }
+}

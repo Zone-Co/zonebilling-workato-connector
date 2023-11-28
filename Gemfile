@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'byebug'
 gem 'rspec'
+gem 'rubocop'
 gem 'timecop'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'vcr'

@@ -1,0 +1,69 @@
+{
+  "success": true,
+  "internalid": 6783,
+  "reference_id": 73,
+  "results": [
+    {
+      "internalid": {
+        "value": "6783"
+      },
+      "entityid": {
+        "value": "CPQ, Inc. : Workato Connector Company"
+      },
+      "balance": {
+        "value": ".00"
+      },
+      "fxbalance": {
+        "value": ".00"
+      },
+      "companyname": {
+        "value": "Workato Connector Company"
+      },
+      "credithold": {
+        "value": "AUTO",
+        "text": "Auto"
+      },
+      "datecreated": {
+        "value": "11.9.2023 3:48 pm"
+      },
+      "daysoverdue": {
+        "value": "0"
+      },
+      "email": {
+        "value": "info@workato.com"
+      },
+      "isinactive": {
+        "value": false
+      },
+      "lastmodifieddate": {
+        "value": "11.9.2023 3:48 pm"
+      },
+      "oncredithold": {
+        "value": false
+      },
+      "overduebalance": {
+        "value": ".00"
+      },
+      "currency": {
+        "value": "1",
+        "text": "USA"
+      },
+      "stage": {
+        "value": "CUSTOMER",
+        "text": "Customer"
+      },
+      "entitystatus": {
+        "value": "13",
+        "text": "CUSTOMER-Closed Won"
+      },
+      "subsidiary": {
+        "value": "3",
+        "text": "Honeycomb Holdings Inc."
+      },
+      "terms": {
+        "value": "2",
+        "text": "Net 30"
+      }
+    }
+  ]
+}

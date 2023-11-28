@@ -20,19 +20,37 @@ RSpec.configure do |config|
 end
 
 VCR.configure do |config|
+  # For Additional troubleshooting on the matchers add the following item to the config.
+  # config.debug_logger = File.open('tape_library.log', 'w')
+
   config.cassette_library_dir = 'tape_library'
   config.hook_into :webmock
   config.cassette_serializers[:encrypted] = Workato::Testing::VCREncryptedCassetteSerializer.new
+
   config.register_request_matcher :headers_without_user_agent do |request1, request2|
-    request1.headers.except('User-Agent') == request2.headers.except('User-Agent')
+    request1.headers.except('User-Agent', 'Authorization') == request2.headers.except('User-Agent', 'Authorization')
   end
+
   config.register_request_matcher :multipart_body do |request1, request2|
     Workato::Testing::VCRMultipartBodyMatcher.call(request1, request2)
   end
+
+  config.register_request_matcher :custom_matcher do |request1, request2|
+    if request1.uri.include?('https://graphql.') && request1.uri == request2.uri
+      request1.method == request2.method &&
+        request1.body == request2.body &&
+        request1.headers.except('User-Agent') == request2.headers.except('User-Agent')
+    else
+      request1.uri == request2.uri
+    end
+  end
+
+
   config.default_cassette_options = {
-    record: ENV.fetch('VCR_RECORD_MODE', :none).to_sym,
+    record: ENV.fetch('VCR_RECORD_MODE', :once).to_sym,
+    decode_compressed_response: false,
     serialize_with: :encrypted,
-    match_requests_on: %i[uri headers_without_user_agent body]
+    match_requests_on: %i[uri custom_matcher]
   }
   config.configure_rspec_metadata!
 end
